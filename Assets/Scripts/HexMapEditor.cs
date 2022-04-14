@@ -7,7 +7,9 @@ public class HexMapEditor : MonoBehaviour
 	public HexGrid hexGrid;
 	private Color activeColor;
 	int activeElevation;
-
+	bool applyColor;
+	bool applyElevation = true;
+	int brushSize;
 
 	void Awake()
 	{
@@ -37,17 +39,40 @@ public class HexMapEditor : MonoBehaviour
 
 	void EditCell(HexCell cell)
 	{
-		cell.color = activeColor;
-		cell.Elevation = activeElevation;
-		hexGrid.Refresh();
+		if (cell)
+		{
+			if (applyColor)
+			{
+				cell.Color = activeColor;
+			}
+			if (applyElevation)
+			{
+				cell.Elevation = activeElevation;
+			}
+		}
 	}
 
+
+	#region handle changes
 	public void SelectColor(int index)
 	{
-		activeColor = colors[index];
+		applyColor = index >= 0;
+		if (applyColor)
+		{
+			activeColor = colors[index];
+		}
 	}
 	public void SetElevation(float elevation)
 	{
 		activeElevation = (int)elevation;
 	}
+	public void SetApplyElevation(bool toggle)
+	{
+		applyElevation = toggle;
+	}
+	public void SetBrushSize(float size)
+	{
+		brushSize = (int)size;
+	}
+    #endregion
 }
