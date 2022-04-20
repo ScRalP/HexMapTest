@@ -16,23 +16,16 @@ public class HexGridChunk : MonoBehaviour
 		cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
 		ShowUI(false);
 	}
-
-	//void Start()
-	//{
-	//	hexMesh.Triangulate(cells);
-	//}
-
-	public void Refresh()
-	{
-		//hexMesh.Triangulate(cells);
-		enabled = true;
-	}
-
     private void LateUpdate()
     {
 		hexMesh.Triangulate(cells);
 		enabled = false;
     }
+	public void Refresh()
+	{
+		enabled = true;
+	}
+
 
     public void AddCell(int index, HexCell cell)
 	{
