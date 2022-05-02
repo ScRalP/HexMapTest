@@ -95,7 +95,15 @@ public class HexCell : MonoBehaviour
 				HexMetrics.elevationStep;
 		}
 	}
-
+	public float RiverSurfaceY
+	{
+		get
+		{
+			return
+				(elevation + HexMetrics.riverSurfaceElevationOffset) *
+				HexMetrics.elevationStep;
+		}
+	}
 
 	public bool HasIncomingRiver
 	{
