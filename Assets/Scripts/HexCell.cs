@@ -141,6 +141,14 @@ public class HexCell : MonoBehaviour
 			return outgoingRiver;
 		}
 	}
+	public HexDirection RiverBeginOrEndDirection
+	{
+		get
+		{
+			return hasIncomingRiver ? incomingRiver : outgoingRiver;
+		}
+	}
+
 
 	public bool HasRiver
 	{
