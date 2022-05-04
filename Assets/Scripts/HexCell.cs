@@ -82,6 +82,8 @@ public class HexCell : MonoBehaviour
 	}
 	int elevation = int.MinValue;
 
+	int waterLevel;
+
 	public Vector3 Position
 	{
 		get
@@ -90,8 +92,43 @@ public class HexCell : MonoBehaviour
 		}
 	}
 
-    #region rivers
-    bool hasIncomingRiver, hasOutgoingRiver;
+	#region /*----------------- WATER -----------------*/
+	public int WaterLevel
+	{
+		get
+		{
+			return waterLevel;
+		}
+		set
+		{
+			if (waterLevel == value)
+			{
+				return;
+			}
+			waterLevel = value;
+			Refresh();
+		}
+	}
+	public bool IsUnderwater
+	{
+		get
+		{
+			return waterLevel > elevation;
+		}
+	}
+	public float WaterSurfaceY
+	{
+		get
+		{
+			return
+				(waterLevel + HexMetrics.waterElevationOffset) *
+				HexMetrics.elevationStep;
+		}
+	}
+	#endregion
+
+	#region /*---------------- RIVERS -----------------*/
+	bool hasIncomingRiver, hasOutgoingRiver;
 	HexDirection incomingRiver, outgoingRiver;
 
 	public float StreamBedY
@@ -108,7 +145,7 @@ public class HexCell : MonoBehaviour
 		get
 		{
 			return
-				(elevation + HexMetrics.riverSurfaceElevationOffset) *
+				(elevation + HexMetrics.waterElevationOffset) *
 				HexMetrics.elevationStep;
 		}
 	}
@@ -231,7 +268,7 @@ public class HexCell : MonoBehaviour
 	}
 	#endregion
 
-	#region roads
+	#region /*----------------- ROADS -----------------*/
 	[SerializeField]
 	bool[] roads;
 	public bool HasRoads

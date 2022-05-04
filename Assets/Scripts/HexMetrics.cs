@@ -30,7 +30,7 @@ public static class HexMetrics
 
 	//river
 	public const float streamBedElevationOffset = -1.75f;
-	public const float riverSurfaceElevationOffset = -0.5f;
+	public const float waterElevationOffset = -0.5f;
 
 
 	static Vector3[] corners = {
