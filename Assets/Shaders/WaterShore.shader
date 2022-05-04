@@ -1,4 +1,4 @@
-﻿Shader "Custom/Water"
+﻿Shader "Custom/WaterShore"
 {
     Properties
     {
@@ -19,8 +19,8 @@
         // Use shader model 3.0 target, to get nicer looking lighting
         #pragma target 3.0
 
+        
         #include "Water.cginc"
-
 
         sampler2D _MainTex;
 
@@ -41,12 +41,13 @@
             // put more per-instance properties here
         UNITY_INSTANCING_BUFFER_END(Props)
 
-        void surf (Input IN, inout SurfaceOutputStandard o)
-        {
+        void surf(Input IN, inout SurfaceOutputStandard o) {
+            float shore = IN.uv_MainTex.y;
+            float foam = Foam(shore, IN.worldPos.xz, _MainTex);
             float waves = Waves(IN.worldPos.xz, _MainTex);
+            waves *= 1 - shore;
 
-            fixed4 c = saturate(_Color + waves);
-
+            fixed4 c = saturate(_Color + max(foam, waves));
             o.Albedo = c.rgb;
             o.Metallic = _Metallic;
             o.Smoothness = _Glossiness;
