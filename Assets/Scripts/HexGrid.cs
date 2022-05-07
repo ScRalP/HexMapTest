@@ -38,17 +38,11 @@ public class HexGrid : MonoBehaviour
 
 		CreateChunks();
 		CreateCells();
+
+		//Procedural generation
+		GenerateMap gm = new GenerateMap(cells);
+		gm.Generate();
 	}
-
-	//void Start()
-	//{
-	//	hexMesh.Triangulate(cells);
-	//}
-
-	//public void Refresh()
-	//{
-	//	hexMesh.Triangulate(cells);
-	//}
 
 	void CreateChunks()
 	{
