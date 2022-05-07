@@ -1,13 +1,14 @@
 ﻿using System;
-using UnityEngine;
 
 public class GenerateMap
 {
     private HexCell[] cells;
+    private Random rand;
 
     public GenerateMap(HexCell[] cells)
     {
         this.cells = cells;
+        rand = new Random();
     }
 
     /// <summary>
@@ -16,6 +17,10 @@ public class GenerateMap
     /// <param name="cells"></param>
     public void Generate()
     {
+        //Tirage d'un biome & génération des variables
+        
+
+
         RandomizeElevation();
         RandomizeWaterLevel();
 
@@ -54,25 +59,22 @@ public class GenerateMap
         //Lissage
         foreach(HexCell cell in cells)
         {
-            int elevationGap = 0;
-            //Regarder tout les voisins
-            foreach(HexDirection dir in Enum.GetValues(typeof(HexDirection)))
+            if (rand.NextDouble() < 0)
             {
-                HexCell neighbor = cell.GetNeighbor(dir);
-                if (neighbor)
+                int elevationCumul = 0;
+                //Regarder tous les voisins
+                foreach(HexDirection dir in Enum.GetValues(typeof(HexDirection)))
                 {
-                    if(neighbor.Elevation > cell.Elevation) {
-                        elevationGap++;
-                    } else if(neighbor.Elevation < cell.Elevation) {
-                        elevationGap--;
+                    HexCell neighbor = cell.GetNeighbor(dir);
+                    if (neighbor)
+                    {
+                        elevationCumul += neighbor.Elevation;
                     }
                 }
+
+                cell.Elevation = elevationCumul / 6;
             }
-
-            cell.Elevation += elevationGap;
         }
-
-        //Imprefections
     }
 
     /// <summary>

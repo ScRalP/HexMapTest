@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class HexGrid : MonoBehaviour
 {
-	//public int width = 6;
-	//public int height = 6;
-
 	//chunks
 	public int chunkCountX = 4, chunkCountZ = 3;
 	int cellCountX, cellCountZ;
@@ -18,9 +15,6 @@ public class HexGrid : MonoBehaviour
 	HexCell[] cells;
 	HexGridChunk[] chunks;
 
-	//HexMesh hexMesh;
-	//Canvas gridCanvas;
-
 	public Color defaultColor = Color.white;
 	public Color touchedColor = Color.magenta;
 
@@ -29,9 +23,6 @@ public class HexGrid : MonoBehaviour
 	void Awake()
 	{
 		HexMetrics.noiseSource = noiseSource;
-
-		//gridCanvas = GetComponentInChildren<Canvas>();
-		//hexMesh = GetComponentInChildren<HexMesh>();
 
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
