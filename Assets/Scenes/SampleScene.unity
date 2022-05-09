@@ -2016,6 +2016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 570809645}
   - component: {fileID: 570809644}
+  - component: {fileID: 570809646}
   m_Layer: 0
   m_Name: Hex Grid
   m_TagString: Untagged
@@ -2058,6 +2059,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &570809646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 570809643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ec72dbc74e466045bb7715e7d20e97b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabTest: {fileID: 4398608189893916538, guid: c4a1dece6d755fc45b04f50e4604da9e,
+    type: 3}
 --- !u!1 &669406964
 GameObject:
   m_ObjectHideFlags: 0
