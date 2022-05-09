@@ -1,11 +1,30 @@
-﻿public class City : Biome
+﻿using System;
+
+public class City : Biome
 {
     public City(HexGrid grid) : base(grid) { }
 
-    public void Generate()
+    public override void Generate()
     {
         RandomizeElevation();
-        FlattenCells(grid.GetCells());
+
+        foreach (HexCell cell in grid.GetCells())
+        {
+            int cumul = 0;
+            int nbNeighbor = 0;
+            foreach (HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+            {
+                HexCell neighbor = cell.GetNeighbor(direction);
+                if(neighbor != null)
+                {
+                    nbNeighbor++;
+                    cumul += neighbor.Elevation;
+                }
+            }
+            cell.Elevation = cumul / nbNeighbor;
+        }
+
+
 
         //On place une ou deux rivières sur la carte
 

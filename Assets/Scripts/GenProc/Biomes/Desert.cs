@@ -2,7 +2,7 @@
 {
     public Desert(HexGrid grid) : base(grid) { }
 
-    public void Generate()
+    public override void Generate()
     {
     }
 }

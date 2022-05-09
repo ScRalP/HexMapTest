@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 public abstract class Biome : IMapGenerator
@@ -9,8 +8,8 @@ public abstract class Biome : IMapGenerator
     {
         this.grid = grid;
     }
-    
-    public void Generate() { }
+
+    public abstract void Generate();
 
 
     #region Méthodes de génération
