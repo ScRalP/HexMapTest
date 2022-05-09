@@ -1,15 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Village : IMapGenerator
+﻿
+public class Village : Biome
 {
-    private HexCell[] cells { get; set; }
-
-    public Village(HexCell[] cells)
-    {
-        this.cells = cells;
-    }
+    public Village(HexGrid grid) : base(grid) { }
 
     public void Generate()
     {

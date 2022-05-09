@@ -1,18 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Desert : IMapGenerator
+﻿public class Desert : Biome
 {
-    private HexCell[] cells { get; set; }
-
-    public Desert(HexCell[] cells)
-    {
-        this.cells = cells;
-    }
+    public Desert(HexGrid grid) : base(grid) { }
 
     public void Generate()
     {
-
     }
 }

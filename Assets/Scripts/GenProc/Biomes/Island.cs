@@ -1,18 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Island : IMapGenerator
+﻿
+public class Island : Biome
 {
-    private HexCell[] cells { get; set; }
-
-    public Island(HexCell[] cells)
-    {
-        this.cells = cells;
-    }
+    public Island(HexGrid grid) : base(grid) { }
 
     public void Generate()
     {
-
     }
 }

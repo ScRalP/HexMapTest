@@ -12,7 +12,7 @@ public class HexGrid : MonoBehaviour
 	public Text cellLabelPrefab;
 	public HexGridChunk chunkPrefab;
 	
-	HexCell[] cells;
+	public HexCell[] cells;
 	HexGridChunk[] chunks;
 
 	public Color defaultColor = Color.white;
@@ -31,7 +31,7 @@ public class HexGrid : MonoBehaviour
 		CreateCells();
 
 		//Procedural generation
-		GenerateMap gm = new GenerateMap(cells);
+		GenerateMap gm = new GenerateMap(this);
 		gm.Generate();
 	}
 
