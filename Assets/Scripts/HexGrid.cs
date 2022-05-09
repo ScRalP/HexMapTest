@@ -171,4 +171,8 @@ public class HexGrid : MonoBehaviour
 			chunks[i].ShowUI(visible);
 		}
 	}
+   public HexCell[] GetCells()
+   {
+      return cells;
+   }
 }
