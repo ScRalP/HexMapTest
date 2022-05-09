@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class City : Biome
+﻿public class City : Biome
 {
     public City(HexGrid grid) : base(grid) { }
 
     public void Generate()
     {
         RandomizeElevation();
-        FlattenCells(grid.cells);
+        FlattenCells(grid.GetCells());
 
         //On place une ou deux rivières sur la carte
 

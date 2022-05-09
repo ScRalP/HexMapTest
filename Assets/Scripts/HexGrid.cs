@@ -12,7 +12,7 @@ public class HexGrid : MonoBehaviour
 	public Text cellLabelPrefab;
 	public HexGridChunk chunkPrefab;
 	
-	public HexCell[] cells;
+	HexCell[] cells;
 	HexGridChunk[] chunks;
 
 	public Color defaultColor = Color.white;

@@ -18,7 +18,7 @@ public abstract class Biome : IMapGenerator
     #region /*----------- ELEVATION -----------*/
     protected void RandomizeElevation()
     {
-        foreach(HexCell cell in grid.cells)
+        foreach(HexCell cell in grid.GetCells())
         {
             cell.Elevation = UnityEngine.Random.Range(0, 6);
         }
