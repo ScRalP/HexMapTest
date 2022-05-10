@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class City : Biome
 {
-    public City(HexGrid grid, Random rand) : base(grid, rand) { }
+    public City(HexGrid grid, System.Random rand) : base(grid, rand) { }
 
     public override void Generate()
     {
@@ -12,11 +13,22 @@ public class City : Biome
         FlattenCells(grid.GetCells(), 0.8);
 
         //On place une ou deux rivières sur la carte
-        int nbRivers = rand.Next(1, 3);
+        int nbRivers = rand.Next(5, 10);
+        Debug.Log("nb rivers" + nbRivers);
         for(int i = 0; i < nbRivers; i++)
         {
-            //prendre des cases aléatoires
-            HexCell from = grid.GetCells()[rand.Next(grid.GetCells().Length)];
+            //Trouver un point haut
+            List<HexCell> highCells = new List<HexCell>();
+            foreach(HexCell cell in grid.GetCells())
+            {
+                if(cell.Elevation > 4 && (!cell.HasOutgoingRiver||!cell.HasIncomingRiver) )
+                {
+                    highCells.Add(cell);
+                }
+            }
+            HexCell from = highCells[rand.Next(highCells.Count)];
+
+            Debug.Log("high cells : " + highCells.Count);
 
             //taille de la rivière
             int riverLength = rand.Next(10, 30); //Todo: faire varier en fonction de la taille de la map
@@ -27,10 +39,6 @@ public class City : Biome
 
             //Tracer la rivière 
             GenerateRiver(from, randDirection, riverLength);
-            
-
-
-
         }
 
 
