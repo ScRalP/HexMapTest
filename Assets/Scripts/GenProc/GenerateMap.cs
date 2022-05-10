@@ -10,7 +10,7 @@ public class GenerateMap
     {
         this.grid = grid;
         this.rand = new Random();
-        this.biomePool = new Biome[] { /*new Desert(grid), new Village(grid), new Island(grid), new Forest(grid),*/ new City(grid) };
+        this.biomePool = new Biome[] { /*new Desert(grid, rand), new Village(grid, rand), new Island(grid, rand), new Forest(grid, rand),*/ new City(grid, rand) };
     }
 
     /// <summary>
