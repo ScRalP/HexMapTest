@@ -6,13 +6,13 @@ public class PrefabsManager : MonoBehaviour
 {
    HexCell[] cells;
    bool continueUpdate;
-   public GameObject prefabTest;
+   public GameObject[] prefabs;
    List<Vector3> objPositions;
 
     // Start is called before the first frame update
     void Start()
     {
-      cells = GameObject.Find("Hex Grid").GetComponent<HexGrid>().GetCells();
+      cells = GetComponent<HexGrid>().GetCells();
       objPositions = new List<Vector3>();
 
       continueUpdate = true;
@@ -71,8 +71,7 @@ public class PrefabsManager : MonoBehaviour
                      neighborhood[2] = secondNeighbors[j];
 
                      int chance = Random.Range(0, 30);
-                     Debug.Log(chance);
-                     canMakeObject = CanDraw(neighborhood) && (chance % 4 == 0);
+                     canMakeObject = CanDraw(neighborhood) && (chance % 6 == 0);
 
                      if (canMakeObject)
                      {
@@ -80,11 +79,13 @@ public class PrefabsManager : MonoBehaviour
                         Vector3 temp2 = ComputeIntersection(neighborhood[0].transform.position, neighborhood[2].transform.position);
 
                         Vector3 objectPosition = ComputeIntersection(temp1, temp2);
+                        objectPosition.y *= HexMetrics.elevationPerturbStrength;
 
                         if (!objPositions.Contains(objectPosition))
                         {
                            objPositions.Add(objectPosition);
-                           Instantiate(prefabTest, objectPosition, Quaternion.identity);
+                        int obj = Random.Range(0, prefabs.Length);
+                           Instantiate(prefabs[obj], objectPosition, Quaternion.identity, neighborhood[0].transform);
                         }
                      }
                   }
