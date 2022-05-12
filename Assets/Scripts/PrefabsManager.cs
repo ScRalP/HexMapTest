@@ -7,13 +7,13 @@ public class PrefabsManager : MonoBehaviour
    HexCell[] cells;
    bool continueUpdate;
    public GameObject[] prefabs;
-   List<Vector3> objPositions;
+   List<Vector2> objPositions;
 
     // Start is called before the first frame update
     void Start()
     {
       cells = GetComponent<HexGrid>().GetCells();
-      objPositions = new List<Vector3>();
+      objPositions = new List<Vector2>();
 
       continueUpdate = true;
     }
@@ -75,17 +75,20 @@ public class PrefabsManager : MonoBehaviour
 
                      if (canMakeObject)
                      {
-                        Vector3 temp1 = ComputeIntersection(neighborhood[0].transform.position, neighborhood[1].transform.position);
-                        Vector3 temp2 = ComputeIntersection(neighborhood[0].transform.position, neighborhood[2].transform.position);
+                        Vector3 temp1 = ComputeIntersection(neighborhood[0].Position, neighborhood[1].Position);
+                        Vector3 temp2 = ComputeIntersection(neighborhood[0].Position, neighborhood[2].Position);
 
-                        Vector3 objectPosition = ComputeIntersection(temp1, temp2);
-                        objectPosition.y *= HexMetrics.elevationPerturbStrength;
+                        Vector3 tempPosition = ComputeIntersection(temp1, temp2);
+                        Vector2 position = new Vector2(tempPosition.x, tempPosition.z);
 
-                        if (!objPositions.Contains(objectPosition))
+                        if (!objPositions.Contains(position))
                         {
-                           objPositions.Add(objectPosition);
-                        int obj = Random.Range(0, prefabs.Length);
-                           Instantiate(prefabs[obj], objectPosition, Quaternion.identity, neighborhood[0].transform);
+                           objPositions.Add(position);
+                           int obj = Random.Range(0, prefabs.Length);
+                           GameObject prefab = prefabs[obj];
+                           float prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
+                           Vector3 worldPos = new Vector3(position.x, neighborhood[0].Position.y+prefabHeight/2.0f, position.y);
+                           Instantiate(prefab, worldPos, Quaternion.identity, neighborhood[0].transform);
                         }
                      }
                   }
