@@ -86,7 +86,16 @@ public class PrefabsManager : MonoBehaviour
                            objPositions.Add(position);
                            int obj = Random.Range(0, prefabs.Length);
                            GameObject prefab = prefabs[obj];
-                           float prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
+                           float prefabHeight;
+                           if (prefab.GetComponent<Renderer>() != null)
+                           {
+                              prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
+                           }
+                           else
+                           {
+                              prefabHeight = prefab.GetComponentInChildren<Renderer>().bounds.size.y;
+                           }
+                           
                            Vector3 worldPos = new Vector3(position.x, neighborhood[0].Position.y+prefabHeight/2.0f, position.y);
                            Instantiate(prefab, worldPos, Quaternion.identity, neighborhood[0].transform);
                         }
