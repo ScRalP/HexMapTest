@@ -6,10 +6,13 @@ public abstract class Biome : IMapGenerator
 {
     protected HexGrid grid;
     protected System.Random rand;
+    protected Array directions;
+
     public Biome(HexGrid grid, System.Random rand)
     {
         this.grid = grid;
         this.rand = rand;
+        this.directions = Enum.GetValues(typeof(HexDirection));
     }
 
     public abstract void Generate();
