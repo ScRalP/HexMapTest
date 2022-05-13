@@ -161,7 +161,7 @@ public abstract class Biome : IMapGenerator
                 HexDirection randDirection = directions[randIndex];
                 HexCell randNeighbor = currentCell.GetNeighbor(randDirection); //on récupère la cellule qui correspond
 
-                if (Math.Abs(randNeighbor.Elevation - currentCell.Elevation) >= 2) //Inaccessible pour une route
+                if (Math.Abs(randNeighbor.Elevation - currentCell.Elevation) >= 2 && randNeighbor.WaterLevel < randNeighbor.Elevation) //Inaccessible pour une route
                 {
                     //Remove from direction list
                     directions.RemoveAt(randIndex);
