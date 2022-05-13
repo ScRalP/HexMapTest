@@ -76,7 +76,7 @@ public abstract class Biome : IMapGenerator
     /// <param name="start">Point de départ de la route</param>
     /// <param name="direction">Direction voulue</param>
     /// <param name="length">Longueur de la route</param>
-    protected void GenerateRiver(HexCell start, HexDirection direction, int length, double rigidity = 1)
+    protected HexCell GenerateRiver(HexCell start, HexDirection direction, int length, double rigidity = 1)
     {
         List<HexCell> riverCells = new List<HexCell>();
         HexCell currentCell = start;
@@ -120,6 +120,8 @@ public abstract class Biome : IMapGenerator
                 }
             }
         }
+
+        return currentCell;
     }
     #endregion
 

@@ -26,7 +26,7 @@ public class City : Biome
         foreach(HexCell cell in riversEnd)
         {
             //On vérifie récursivement si les voisins sont apte à acceuilir un lac
-
+            //todo : water level
         }
 
         //Créer plusieurs villes en fonction de la taille de la carte (nombre de cell)
