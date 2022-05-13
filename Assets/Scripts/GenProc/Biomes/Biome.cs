@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Biome : IMapGenerator
 {
     protected HexGrid grid;
-    public Biome(HexGrid grid)
+    protected System.Random rand;
+    protected Array directions;
+
+    public Biome(HexGrid grid, System.Random rand)
     {
         this.grid = grid;
+        this.rand = rand;
+        this.directions = Enum.GetValues(typeof(HexDirection));
     }
 
     public abstract void Generate();
@@ -23,49 +29,38 @@ public abstract class Biome : IMapGenerator
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="cells">Les cellules à lisser</param>
-    /// <param name="neighborsRange">Distance des voisins à regarder</param>
-    protected void FlattenCells(HexCell[] cells, int neighborsRange = 1)
+    protected void FlattenCells(HexCell[] cells, double ratio = 1)
     {
         foreach(HexCell cell in cells)
         {
-            FlattenCell(cell, neighborsRange);
+            FlattenCell(cell, ratio);
         }
     }
 
-    protected void FlattenCell(HexCell cell, int neighborsRange = 1)
+    protected void FlattenCell(HexCell cell, double ratio = 1)
     {
-        List<HexCell> neighbors = new List<HexCell>();
-        neighbors.Add(cell);
+        int cumul = 0;
+        int nbNeighbor = 0;
 
-        //Ajouter tout les voisins à prendre en compte
-        for(int i = 0; i < neighborsRange; i++)
+        foreach (HexDirection direction in Enum.GetValues(typeof(HexDirection)))
         {
-            foreach(HexCell c in neighbors)
+            //Ajoutes de facon aléatoire un voisin ou non
+            if (rand.NextDouble() < ratio)
             {
-                foreach (HexDirection dir in Enum.GetValues(typeof(HexDirection)))
+                HexCell neighbor = cell.GetNeighbor(direction);
+                if (neighbor != null)
                 {
-                    HexCell neighbor = c.GetNeighbor(dir);
-                    if (!neighbors.Contains(neighbor))
-                    {
-                        neighbors.Add(neighbor);
-                    }
+                    nbNeighbor++;
+                    cumul += neighbor.Elevation;
                 }
             }
         }
 
-        //Pondérer la valeur de la case
-        int elevation = 0;
-        foreach(HexCell neighbor in neighbors)
+        if (nbNeighbor != 0)
         {
-            elevation += neighbor.Elevation;
+            cell.Elevation = cumul / nbNeighbor;
         }
-        elevation /= neighbors.Count;
 
-        cell.Elevation = elevation;
     }
     #endregion
 
@@ -75,9 +70,56 @@ public abstract class Biome : IMapGenerator
 
     }
 
-    protected void GenerateRiver(HexCell from, HexDirection direction, int length)
+    /// <summary>
+    /// Génère une rivière dans une direction d'une certaine longueur
+    /// </summary>
+    /// <param name="start">Point de départ de la route</param>
+    /// <param name="direction">Direction voulue</param>
+    /// <param name="length">Longueur de la route</param>
+    protected void GenerateRiver(HexCell start, HexDirection direction, int length, double rigidity = 1)
     {
+        List<HexCell> riverCells = new List<HexCell>();
+        HexCell currentCell = start;
 
+        for(int i = 0; i < length; i++)
+        {
+            //Create a pool of direction with only available forward ones and in a precise order
+            List<HexDirection> directions = new List<HexDirection>();
+            if (currentCell.GetNeighbor(direction.Previous2()) != null && !riverCells.Contains(currentCell.GetNeighbor(direction.Previous2()))) directions.Add(direction.Previous2());
+            if (currentCell.GetNeighbor(direction.Previous ()) != null && !riverCells.Contains(currentCell.GetNeighbor(direction.Previous ()))) directions.Add(direction.Previous ());
+            if (currentCell.GetNeighbor(direction            ) != null && !riverCells.Contains(currentCell.GetNeighbor(direction            ))) directions.Add(direction            );
+            if (currentCell.GetNeighbor(direction.Next     ()) != null && !riverCells.Contains(currentCell.GetNeighbor(direction.Next()     ))) directions.Add(direction.Next     ());
+            if (currentCell.GetNeighbor(direction.Next2    ()) != null && !riverCells.Contains(currentCell.GetNeighbor(direction.Next2()    ))) directions.Add(direction.Next2    ());
+
+            bool cellValid = false;
+            while (directions.Count > 0 && !cellValid)
+            {
+                cellValid = false;
+
+                //Les directions étant placés dans l'ordre on viens en prendre une vers le milieu
+                int randIndex = GetRandomCenteralLimitedValueBetween(0, directions.Count, rigidity);
+
+                HexDirection randDirection = directions[randIndex];
+                HexCell randNeighbor = currentCell.GetNeighbor(randDirection); //on récupère la cellule qui correspond
+
+                if(randNeighbor.Elevation > currentCell.Elevation) //Inaccessible pour une rivière
+                {
+                    //Remove from direction list
+                    directions.RemoveAt(randIndex);
+                } else { //Cellule valide
+                    cellValid = true;
+
+                    //Create river between cells
+                    currentCell.SetOutgoingRiver(randDirection);
+
+                    //Add it to list
+                    riverCells.Add(randNeighbor);
+
+                    //Change current cell
+                    currentCell = randNeighbor;
+                }
+            }
+        }
     }
     #endregion
 
@@ -90,14 +132,54 @@ public abstract class Biome : IMapGenerator
     /// <summary>
     /// Génère une route dans une direction d'une certaine longueur
     /// </summary>
-    /// <param name="from"></param>
-    /// <param name="direction"></param>
-    /// <param name="length"></param>
-    protected void GenerateRoad(HexCell from, HexDirection direction, int length)
+    /// <param name="start">Point de départ de la route</param>
+    /// <param name="direction">Direction voulue</param>
+    /// <param name="length">Longueur de la route</param>
+    /// <param name="rigidity">A quel point la route doit suivre la direction (0 = peu rigide, 1 = tres rigide)</param>
+    protected void GenerateRoad(HexCell start, HexDirection direction, int length, double rigidity = 1)
     {
+        HexCell currentCell = start;
+
+        for (int i = 0; i < length; i++)
+        {
+            //Create a pool of direction with only available forward ones and in a precise order
+            List<HexDirection> directions = new List<HexDirection>();
+            if (currentCell.GetNeighbor(direction.Previous2()) != null) directions.Add(direction.Previous2());
+            if (currentCell.GetNeighbor(direction.Previous ()) != null) directions.Add(direction.Previous ());
+            if (currentCell.GetNeighbor(direction            ) != null) directions.Add(direction            );
+            if (currentCell.GetNeighbor(direction.Next     ()) != null) directions.Add(direction.Next     ());
+            if (currentCell.GetNeighbor(direction.Next2    ()) != null) directions.Add(direction.Next2    ());
+
+            bool cellValid = false;
+            while (directions.Count > 0 && !cellValid)
+            {
+                cellValid = false;
+
+                //Les directions étant placés dans l'ordre on viens en prendre une vers le milieu
+                int randIndex = GetRandomCenteralLimitedValueBetween(0, directions.Count, rigidity);
+
+                HexDirection randDirection = directions[randIndex];
+                HexCell randNeighbor = currentCell.GetNeighbor(randDirection); //on récupère la cellule qui correspond
+
+                if (Math.Abs(randNeighbor.Elevation - currentCell.Elevation) >= 2 && randNeighbor.WaterLevel < randNeighbor.Elevation) //Inaccessible pour une route
+                {
+                    //Remove from direction list
+                    directions.RemoveAt(randIndex);
+                }
+                else
+                { //Cellule valide
+                    cellValid = true;
+
+                    //Create road between cells
+                    currentCell.AddRoad(randDirection);
+
+                    //Change current cell
+                    currentCell = randNeighbor;
+                }
+            }
+        }
 
     }
-
 
     #endregion
 
@@ -106,5 +188,20 @@ public abstract class Biome : IMapGenerator
     #endregion
 
     #endregion
+
+    public int GetRandomCenteralLimitedValueBetween(int min, int max, double rigidity = 1)
+    {
+        int nbIterations = (int)(10 * rigidity);
+
+        if (min > max) return 0;
+
+        int result = 0;
+        for(int i = 0; i < nbIterations; i++)
+        {
+            result += rand.Next(min, max);
+        }
+
+        return (int)Math.Floor((double)(result / nbIterations));
+    }
 
 }

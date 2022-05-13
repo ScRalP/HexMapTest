@@ -4,7 +4,9 @@ using UnityEngine;
 public class HexGrid : MonoBehaviour
 {
 	//chunks
-	public int chunkCountX = 4, chunkCountZ = 3;
+	public int chunkCountX { get; set; }
+	public int chunkCountZ { get; set; }
+
 	int cellCountX, cellCountZ;
 
 	//prefabs
@@ -22,6 +24,9 @@ public class HexGrid : MonoBehaviour
 
 	void Awake()
 	{
+		chunkCountX = Random.Range(3, 7);
+		chunkCountZ = Random.Range(2, 6);
+
 		HexMetrics.noiseSource = noiseSource;
 
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
@@ -156,8 +161,10 @@ public class HexGrid : MonoBehaviour
 			chunks[i].ShowUI(visible);
 		}
 	}
-   public HexCell[] GetCells()
-   {
-      return cells;
-   }
+	public HexCell[] GetCells()
+	{
+		return cells;
+	}
+
+
 }
