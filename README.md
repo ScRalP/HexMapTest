@@ -3,7 +3,11 @@
 ## Cartes de tuiles hexagonales
 
 ### Inspirations
-<img src="https://lagranderecre-lagranderecre-fr-storage.omn.proximis.com/Imagestorage/imagesSynchro/0/0/9d5db7bbfc6e425ec1ffbd294c22ea8fd60566c9_IMG-PRODUCT-206065-6.jpeg" alt="Jeu de société Catan" width="120"/>
+Principale inspiration : Catan
+<img src="https://boutiquelydie.com/uploads/products/18868_7160.jpg" alt="Jeu de société Catan" width="120"/>
+Il s'agit d'un jeu de société dans lequel on se déplace sur des tuiles hexagonales pour récupérer des ressources.
+Chaque tuile a sa propre couleur et propose une ressource particulière.
+Il est possible de tracer des chemins entre ces tuiles et de poser des habitations pour cagnoter des ressources.
 
 ### 1ers pas
 
