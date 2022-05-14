@@ -13,8 +13,8 @@ public class City : Biome
         RandomizeElevation();
         FlattenCells(grid.GetCells(), 0.8);
 
-        //On place entre 5 et 10 rivières sur la carte
-        int nbRivers = rand.Next(3, 5);
+        //On place les rivières
+        int nbRivers = rand.Next(3,5);
         List<HexCell> riversEnd = new List<HexCell>();
         for (int i = 0; i < nbRivers; i++)
         {
@@ -25,8 +25,24 @@ public class City : Biome
         //On ajoutes des lacs (si possible) au bout des rivières
         foreach(HexCell cell in riversEnd)
         {
-            //On vérifie récursivement si les voisins sont apte à acceuilir un lac
-            //todo : water level
+            if(cell.WaterLevel == 0)
+            {
+                //Ajout de lacs
+                List<HexCell> waterCells = new List<HexCell>();
+                int waterLevel = cell.Elevation + 1;
+                GenerateWater(cell, waterCells, waterLevel);
+
+                //Si on remplis pas trop la carte d'eau
+                if(((double)waterCells.Count / (double)grid.GetCells().Length) < 0.5)
+                {
+                    //On ajoutes l'eau aux tuiles
+                    foreach (HexCell waterCell in waterCells)
+                    {
+                        waterCell.WaterLevel = waterLevel;
+                    }
+                }
+            }
+            
         }
 
         //Créer plusieurs villes en fonction de la taille de la carte (nombre de cell)
@@ -68,12 +84,28 @@ public class City : Biome
         return GenerateRiver(from, randDirection, riverLength);
     }
 
+    private void GenerateWater(HexCell currentCell, List<HexCell> cells, int waterLevel)
+    {
+        cells.Add(currentCell);
+        foreach(HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+        {
+            HexCell neighbor = currentCell.GetNeighbor(direction);
+            if(neighbor != null)
+            {
+                if (neighbor.Elevation < waterLevel && !cells.Contains(neighbor))
+                {
+                    //Debug.Log("neighbor : " + neighbor.Elevation + " - current : " + currentCell.Elevation);
+                    GenerateWater(neighbor, cells, waterLevel);
+                }
+            }
+        }
+    }
+
     private void GenerateCity(int citySize)
     {
         //On détermine le centre de la ville
         int randX = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeX);
         int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
-        Debug.Log(randX + ":" + randZ + " - " + citySize);
 
         HexCell cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
 
