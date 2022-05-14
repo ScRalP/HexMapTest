@@ -1,11 +1,11 @@
-#Conception de niveau : dessin d'une carte en 3D
+# Conception de niveau : dessin d'une carte en 3D
 
-##Génération procédurale
+## Génération procédurale
 
-###Cartes de tuiles hexagonales
+### Cartes de tuiles hexagonales
 
-###Tracé des routes
+### Tracé des routes
 
-###Tracé des rivières
+### Tracé des rivières
 
-###Placement de modèles 3D
+### Placement de modèles 3D
