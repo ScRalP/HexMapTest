@@ -22,7 +22,6 @@ La carte est composée de tuiles hexagonales. C'est plus ou moins ce type de visu
 Nous avons suivi des [tutoriels du site Catlike Coding](https://catlikecoding.com/unity/tutorials/hex-map/) pour tout ce qui concernaient le dessin de la carte.
 
 Dans un 1er temps, nous avons seulement utilisé les éléments du 1er tutotiel pour dessiner des tuiles. Nous souhaitions obtenir un ensemble de routes qui se croisent pour former des villes.
-
 Les routes sont faites à partir de tuiles hexagonales :
 
 <img src="./ImgOfReadMe/01.png" alt="1re étape" width="600"/>
