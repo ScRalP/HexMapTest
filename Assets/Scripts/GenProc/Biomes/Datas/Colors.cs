@@ -14,6 +14,6 @@ public class Colors
     public static Color FIELD  = new Color(0.96f, 0.88f, 0.58f);
     public static Color FOREST = new Color(0.28f, 0.42f, 0.20f);
 
-    public static Color MOUNTAIN = new Color(0.26f, 0.60f, 0.28f);
+    public static Color MOUNTAIN = new Color(0.36f, 0.24f, 0.24f);
     public static Color SNOW     = new Color(0.88f, 0.89f, 0.87f);
 }

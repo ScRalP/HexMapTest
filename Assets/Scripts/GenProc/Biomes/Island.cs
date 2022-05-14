@@ -9,9 +9,6 @@ public class Island : Biome
     {
     }
 
-   public override void SetBiomeColor()
-   {
-   }
 
    public override void FillPrefabsTab()
    {

@@ -129,27 +129,6 @@ public class City : Biome
         }
     }
 
-   public override void SetBiomeColor()
-   {
-      foreach(HexCell cell in biomeCells)
-      {
-         int colorChance = UnityEngine.Random.Range(0, 10);
-
-         if(colorChance <= 2)
-         {
-            cell.Color = sandColor;
-         }
-         else if (colorChance >= 3 && colorChance <= 7)
-         {
-            cell.Color = stoneColor;
-         }
-         else
-         {
-            cell.Color = grassColor;
-         }
-      }
-   }
-
    public override void FillPrefabsTab()
    {
       prefabs = new GameObject[5];
@@ -166,7 +145,7 @@ public class City : Biome
 
       if (!firstElement)
       {
-         if(parent.Color == grassColor) // Si la tuile est recouverte d'herbe
+         if(parent.Color == Colors.FOREST) // Si la tuile est recouverte d'herbe
          {
             obj = 5; // Place des arbres sur l'herbe
          }

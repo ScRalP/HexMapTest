@@ -8,27 +8,6 @@ public class Forest : Biome
     public override void Generate()
     {
     }
-
-   public override void SetBiomeColor()
-   {
-      foreach (HexCell cell in biomeCells)
-      {
-         int colorChance = UnityEngine.Random.Range(0, 10);
-
-         if (colorChance == 0)
-         {
-            cell.Color = sandColor;
-         }
-         else if (colorChance >= 1 && colorChance <= 2)
-         {
-            cell.Color = stoneColor;
-         }
-         else
-         {
-            cell.Color = grassColor;
-         }
-      }
-   }
    public override void FillPrefabsTab()
    {
 

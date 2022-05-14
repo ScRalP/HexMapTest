@@ -8,26 +8,6 @@ public class Desert : Biome
     public override void Generate()
     {
     }
-   public override void SetBiomeColor()
-   {
-      foreach (HexCell cell in biomeCells)
-      {
-         int colorChance = UnityEngine.Random.Range(0, 10);
-
-         if (colorChance == 0)
-         {
-            cell.Color = grassColor;
-         }
-         else if (colorChance >= 1 && colorChance <= 3)
-         {
-            cell.Color = redSandColor;
-         }
-         else
-         {
-            cell.Color = sandColor;
-         }
-      }
-   }
 
    public override void FillPrefabsTab()
    {

@@ -189,16 +189,6 @@ public abstract class Biome : IMapGenerator
 
    #region /*---------- DECORATIONS ----------*/
 
-   protected Color grassColor = new Color(0.4f, 0.5f, 0f);
-   protected Color sandColor = new Color(0.8f, 0.7f, 0.3f);
-   protected Color redSandColor = new Color(0.8f, 0.5f, 0.3f);
-   protected Color stoneColor = new Color(0.5f, 0.5f, 0.45f);
-
-   /// <summary>
-   /// Colorie les tuiles du biome
-   /// </summary>
-   public abstract void SetBiomeColor();
-
    /// <summary>
    /// Remplit le teableau contenant les prefabs qui vont être instanciés
    /// </summary>
@@ -286,7 +276,7 @@ public abstract class Biome : IMapGenerator
    /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
    private void Instantiate3DObject(int objID, Vector2 position, HexCell parent)
    {
-      GameObject prefab = prefabs[objID];
+      GameObject prefab = prefabs[objID-1];
       float prefabHeight = Get3DObjectHeight(prefab);
 
       // World positionning
