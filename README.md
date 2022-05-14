@@ -38,10 +38,13 @@ Pour le tracé des routes, nous avons repris notre idée de départ. Il s'agit de d
 On crée la route par petits bouts et à chaque bout posé, on tire dans une pile une direction alétaoire pour créer des petites déviations de la route.
 A chaque tirage, la pile change de façon à permettre à la route de suivre sa direction principale et de ne pas piocher tout le temps la même direction.
 
-Nous nous sommes basés sur une génération similaire à celles des niveaux dans le jeu [Spellunky](https://www.youtube.com/watch?v=Uqk5Zf0tw3o&t=3s).
+<img src="./ImgOfReadMe/06.png" alt="Routes" width="700"/>
+
+Pour générer nos routes, nous nous sommes basés sur une génération similaire à celles des niveaux dans le jeu [Spellunky](https://www.youtube.com/watch?v=Uqk5Zf0tw3o&t=3s).
 
 ### Génération des rivières
 
+<img src="./ImgOfReadMe/07.png" alt="Rivières" width="700"/>
 
 ## Placement de modèles 3D
 
@@ -50,14 +53,14 @@ Au début du projet, nous souhaitions reproduire une ville avec des routes compos
 Pour faire honneur à l'endroit où nous étudions, nous voulions utiliser des modèles 3D significatifs de la ville d'Angoulême.
 Pour illuster la ville de la Bande Dessinée, nous utilisons des modèles 3D des statues de Hergé (le créateur de Tintin) et de Corto Maltese.
 
-<img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/><img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="400"/>
+<img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/>   <img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="400"/>
 
 Toutefois, la plupart des modèles 3D de la ville est trop volumineuse et difficile à retravailler pour les adapter à notre projet. C'est le cas des bâtiments.
 Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon.
 
-**"** *Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
+*" Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
 *Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.*
-*Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double !* **"**
+*Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double !"*
 
 *Lilian*
 
