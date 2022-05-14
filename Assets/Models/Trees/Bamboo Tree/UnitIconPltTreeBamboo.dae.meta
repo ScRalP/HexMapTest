@@ -3,7 +3,12 @@ guid: e1055392af2e9ba4ea5c3b0f3977fa7a
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mUnitIconPltTreeBamboo
+    second: {fileID: 2100000, guid: 8536d138128ca0348b8511c1906eef31, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

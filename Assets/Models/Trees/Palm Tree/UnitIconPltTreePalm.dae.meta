@@ -3,7 +3,12 @@ guid: 66c8f6898c2099141b39f34d43dcc56d
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: mUnitIconPltTreePalm
+    second: {fileID: 2100000, guid: a71a157c810533943808a8ae9025c378, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0
