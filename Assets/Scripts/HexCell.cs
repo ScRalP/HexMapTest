@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HexCell : MonoBehaviour
 {
@@ -382,4 +383,19 @@ public class HexCell : MonoBehaviour
 		int difference = elevation - GetNeighbor(direction).elevation;
 		return difference >= 0 ? difference : -difference;
 	}
+
+
+	public bool HaveFloodedNeighbor()
+    {
+		foreach(HexDirection direction in Enum.GetValues(typeof(HexDirection)))
+        {
+			HexCell neigbor = GetNeighbor(direction);
+			if(neigbor != null) {
+				if (neigbor.WaterLevel > neigbor.Elevation)
+					return true;
+            }
+        }
+		return false;
+    }
+
 }
