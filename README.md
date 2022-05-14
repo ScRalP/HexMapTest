@@ -56,11 +56,11 @@ Pour illuster la ville de la Bande Dessinée, nous utilisons des modèles 3D des s
 Toutefois, la plupart des modèles 3D de la ville est trop volumineuse et difficile à retravailler pour les adapter à notre projet. C'est le cas des bâtiments.
 Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon.
 
-*"Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.
-Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.
-Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double ! "
+*"Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
+*Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.*
+*Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double ! "*
 
-Lilian*
+*Lilian*
 
 
 <img src="https://thumbs.worthpoint.com/zoom/images1/1/0510/01/bandai-pokemon-gashapon-figure-full_1_71c18557c3fe39570d4ad8281b60eeb2.jpg" alt="Jouets Pokémon" width="400"/>
