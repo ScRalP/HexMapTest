@@ -7,7 +7,7 @@ public abstract class Biome : IMapGenerator
     protected HexGrid grid;
     protected System.Random rand;
     protected Array directions;
-    protected List<HexCell> biomeCells;
+    protected HexCell[] biomeCells;
     protected GameObject[] prefabs;
 
     public Biome(HexGrid grid, System.Random rand)
@@ -15,7 +15,6 @@ public abstract class Biome : IMapGenerator
         this.grid = grid;
         this.rand = rand;
         this.directions = Enum.GetValues(typeof(HexDirection));
-        this.biomeCells = new List<HexCell>();
     }
 
     public abstract void Generate();
@@ -189,6 +188,12 @@ public abstract class Biome : IMapGenerator
    #endregion
 
    #region /*---------- DECORATIONS ----------*/
+
+   protected Color grassColor = new Color(0.4f, 0.5f, 0f);
+   protected Color sandColor = new Color(0.8f, 0.7f, 0.3f);
+   protected Color redSandColor = new Color(0.8f, 0.5f, 0.3f);
+   protected Color stoneColor = new Color(0.5f, 0.5f, 0.45f);
+
    public abstract void SetBiomeColor();
 
    public abstract void FillPrefabsTab();
@@ -261,7 +266,7 @@ public abstract class Biome : IMapGenerator
       //Draw first object at center of the biome
       Draw3DObject(centerPos, biomeCells[0], true);
 
-      for (int i = 0; i < biomeCells.Count; i++)
+      for (int i = 0; i < biomeCells.Length; i++)
       {
          HexDirection[] directions = { HexDirection.NE, HexDirection.NW, HexDirection.SE, HexDirection.SW, HexDirection.E, HexDirection.W };
 
@@ -323,21 +328,22 @@ public abstract class Biome : IMapGenerator
 
    public void SetBiomeCells(HexCell center, int size)
    {
-      biomeCells.Add(center);
-      HexCell currentCell = center;
-
-      for(int cell = 0; cell <= size/2; cell++)
-      {
-         for(int dir = 0; dir <= 5; dir++)
-         {
-            HexCell neighbor = currentCell.GetNeighbor((HexDirection)dir);
-
-            if (neighbor != null)
-            {
-               biomeCells.Add(neighbor);
-               currentCell = neighbor;
-            }
-         }
-      }
+      biomeCells = grid.GetCells();
+      
+      //HexCell currentCell = center;
+      //
+      //for(int cell = 0; cell <= size/2; cell++)
+      //{
+      //   for(int dir = 0; dir <= 5; dir++)
+      //   {
+      //      HexCell neighbor = currentCell.GetNeighbor((HexDirection)dir);
+      //
+      //      if (neighbor != null)
+      //      {
+      //         biomeCells.Add(neighbor);
+      //         currentCell = neighbor;
+      //      }
+      //   }
+      //}
    }
 }

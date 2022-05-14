@@ -17,11 +17,15 @@ public class Forest : Biome
 
          if (colorChance == 0)
          {
-            cell.Color = Color.yellow;
+            cell.Color = sandColor;
+         }
+         else if (colorChance >= 1 && colorChance <= 2)
+         {
+            cell.Color = stoneColor;
          }
          else
          {
-            cell.Color = Color.green;
+            cell.Color = grassColor;
          }
       }
    }

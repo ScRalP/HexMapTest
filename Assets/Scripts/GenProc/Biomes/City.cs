@@ -93,17 +93,17 @@ public class City : Biome
       {
          int colorChance = UnityEngine.Random.Range(0, 10);
 
-         if(colorChance <= 3)
+         if(colorChance <= 2)
          {
-            cell.Color = Color.grey;
+            cell.Color = sandColor;
          }
-         else if (colorChance >= 4 && colorChance <= 7)
+         else if (colorChance >= 3 && colorChance <= 7)
          {
-             cell.Color = Color.green;
+            cell.Color = stoneColor;
          }
          else
          {
-            cell.Color = Color.yellow;
+            cell.Color = grassColor;
          }
       }
    }

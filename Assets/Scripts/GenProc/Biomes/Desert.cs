@@ -16,11 +16,15 @@ public class Desert : Biome
 
          if (colorChance == 0)
          {
-            cell.Color = Color.green;
+            cell.Color = grassColor;
+         }
+         else if (colorChance >= 1 && colorChance <= 3)
+         {
+            cell.Color = redSandColor;
          }
          else
          {
-            cell.Color = Color.yellow;
+            cell.Color = sandColor;
          }
       }
    }
