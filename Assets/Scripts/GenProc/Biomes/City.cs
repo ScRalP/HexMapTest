@@ -110,14 +110,12 @@ public class City : Biome
 
    public override void FillPrefabsTab()
    {
-      prefabs = new GameObject[7];
+      prefabs = new GameObject[5];
       prefabs[0] = Resources.Load<GameObject>("Prefabs/Flag");
-      prefabs[1] = Resources.Load<GameObject>("Prefabs/Corto Maltese");
-      prefabs[2] = Resources.Load<GameObject>("Prefabs/Herge");
-      prefabs[3] = Resources.Load<GameObject>("Prefabs/Appartments");
-      prefabs[4] = Resources.Load<GameObject>("Prefabs/Authors House");
-      prefabs[5] = Resources.Load<GameObject>("Prefabs/Post Office");
-      prefabs[6] = Resources.Load<GameObject>("Prefabs/Cedar Tree");
+      prefabs[1] = Resources.Load<GameObject>("Prefabs/Cyndaquil House");
+      prefabs[2] = Resources.Load<GameObject>("Prefabs/Chikitora House");
+      prefabs[3] = Resources.Load<GameObject>("Prefabs/Totodile House");
+      prefabs[4] = Resources.Load<GameObject>("Prefabs/Cedar Tree");
    }
 
    public override int Choose3DObject(Vector2 position, HexCell parent, bool firstElement)
@@ -128,11 +126,11 @@ public class City : Biome
       {
          if(parent.Color == grassColor) // Si la tuile est recouverte d'herbe
          {
-            obj = 6; // Place des arbres sur l'herbe
+            obj = 5; // Place des arbres sur l'herbe
          }
          else
          {
-            obj = UnityEngine.Random.Range(3, 5); // Place des habitations
+            obj = UnityEngine.Random.Range(1, 4); // Place des habitations
          }
       }
 

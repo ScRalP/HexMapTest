@@ -230,7 +230,6 @@ public abstract class Biome : IMapGenerator
    {
       float prefabHeight;
       Debug.Log(prefab);
-
       if (prefab.GetComponent<Renderer>() != null)
       {
          prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
