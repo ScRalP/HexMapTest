@@ -33,4 +33,10 @@ public class Forest : Biome
    {
 
    }
+   public override int Choose3DObject(Vector2 position, HexCell parent, bool firstElement)
+   {
+      int obj = 0; //ID pour le premier objet
+
+      return obj;
+   }
 }

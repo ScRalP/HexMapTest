@@ -119,4 +119,23 @@ public class City : Biome
       prefabs[5] = Resources.Load<GameObject>("Prefabs/Post Office");
       prefabs[6] = Resources.Load<GameObject>("Prefabs/Cedar Tree");
    }
+
+   public override int Choose3DObject(Vector2 position, HexCell parent, bool firstElement)
+   {
+      int obj = 0; // ID pour le premier objet
+
+      if (!firstElement)
+      {
+         if(parent.Color == grassColor) // Si la tuile est recouverte d'herbe
+         {
+            obj = 6; // Place des arbres sur l'herbe
+         }
+         else
+         {
+            obj = UnityEngine.Random.Range(3, 5); // Place des habitations
+         }
+      }
+
+      return obj;
+   }
 }

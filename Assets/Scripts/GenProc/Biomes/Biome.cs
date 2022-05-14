@@ -260,21 +260,34 @@ public abstract class Biome : IMapGenerator
    }
 
    /// <summary>
-   /// PLace un objet 3D à une position donnée en tant que fille d'une tuile
+   /// Choisit un objet 3D à placer
    /// </summary>
-   /// <param name="position">Position donnée</param>
+   /// <param name="position">Position du placement</param>
    /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
    /// <param name="firstElement">Détermine s'il s'agit du 1er objet à poser ou non</param>
-   protected void Draw3DObject(Vector2 position, HexCell parent, bool firstElement)
+   public abstract int Choose3DObject(Vector2 position, HexCell parent, bool firstElement);
+
+   /// <summary>
+   /// Place un objet 3D
+   /// </summary>
+   /// <param name="position">Position du placement</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   /// <param name="firstElement">Détermine s'il s'agit du 1er objet à poser ou non</param>
+   private void Draw3DObject(Vector2 position, HexCell parent, bool firstElement)
    {
-      int obj = 0; //ID for drawing first element
+      int objID = Choose3DObject(position, parent, firstElement);
+      Instantiate3DObject(objID, position, parent);
+   }
 
-      if(!firstElement)
-      {
-         obj = UnityEngine.Random.Range(1, prefabs.Length - 1); //Pick another ID
-      }
-
-      GameObject prefab = prefabs[obj];
+   /// <summary>
+   /// Crée une instance de l'objet 3D placé
+   /// </summary>
+   /// <param name="objID">Identifiant de l'objet à placer</param>
+   /// <param name="position">Position de placement</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   private void Instantiate3DObject(int objID, Vector2 position, HexCell parent)
+   {
+      GameObject prefab = prefabs[objID];
       float prefabHeight = Get3DObjectHeight(prefab);
 
       // World positionning
@@ -291,7 +304,7 @@ public abstract class Biome : IMapGenerator
 
       Vector2 centerPos = new Vector2(biomeCells[0].Position.x, biomeCells[0].Position.z);
 
-      //Draw first object at center of the biome
+      //Dessine le 1er objet au centre du biome
       Draw3DObject(centerPos, biomeCells[0], true);
 
       for (int i = 0; i < biomeCells.Length; i++)
