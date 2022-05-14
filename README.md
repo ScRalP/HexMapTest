@@ -31,13 +31,39 @@ Nous avons abandonné cette idée pour suivre au mieux le tutoriel et fournir une 
 <img src="./ImgOfReadMe/02.png" alt="Ajout de reliefs" width="400"/>
 
 
-## Peuplement de la carte
+## Accentuation des reliefs
 
 ### Tracé des routes
-Pour le tracé des routes, nous avons repris notre idée de départ. Il s'agit de donner à la route une direction princpale qu'elle suit dans l'ensemble. On crée la route par petits bouts et à chaque bout posé, on tire dans une pile une direction alétaoire pour créer des petites déviations de la route. A chaque tirage, la pile change de façon à permettre à la route de suivre sa direction principale et de ne pas piocher tout le temps la même direction.
-Pour la génération des routes, nous nous sommes basés sur une génération similaire à celles des niveaux dans le jeu [Spellunky](https://www.youtube.com/watch?v=Uqk5Zf0tw3o&t=3s).
+Pour le tracé des routes, nous avons repris notre idée de départ. Il s'agit de donner à la route une direction princpale qu'elle suit dans l'ensemble.
+On crée la route par petits bouts et à chaque bout posé, on tire dans une pile une direction alétaoire pour créer des petites déviations de la route.
+A chaque tirage, la pile change de façon à permettre à la route de suivre sa direction principale et de ne pas piocher tout le temps la même direction.
+
+Nous nous sommes basés sur une génération similaire à celles des niveaux dans le jeu [Spellunky](https://www.youtube.com/watch?v=Uqk5Zf0tw3o&t=3s).
 
 ### Génération des rivières
 
 
-### Placement de modèles 3D
+## Placement de modèles 3D
+
+### Choix des modèles 3D
+Au début du projet, nous souhaitions reproduire une ville avec des routes composées de tuiles hexagonales.
+Pour faire honneur à l'endroit où nous étudions, nous voulions utiliser des modèles 3D significatifs de la ville d'Angoulême.
+Pour illuster la ville de la Bande Dessinée, nous utilisons des modèles 3D des statues de Hergé (le créateur de Tintin) et de Corto Maltese.
+
+<img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/>
+<img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="600"/>
+
+Toutefois, la plupart des modèles 3D de la ville est trop volumineuse et difficile à retravailler pour les adapter à notre projet. C'est le cas des bâtiments.
+Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon.
+
+*"Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.
+Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.
+Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double ! "
+
+Lilian*
+
+
+<img src="https://thumbs.worthpoint.com/zoom/images1/1/0510/01/bandai-pokemon-gashapon-figure-full_1_71c18557c3fe39570d4ad8281b60eeb2.jpg" alt="Jouets Pokémon" width="400"/>
+
+
+### Evolution de la méthode de placement
