@@ -1,6 +1,11 @@
 # Génération procédurale : dessin d'une carte en 3D
 
 ## Cartes de tuiles hexagonales
+Par des Ingénieur Informatique et Multimédia (2022, promotion 6) :
+
+Quentin Robard
+Lilian  Sananikone
+___
 
 ### Inspirations
 Principale inspiration : Catan
@@ -56,9 +61,11 @@ Pour illuster la ville de la Bande Dessinée, nous utilisons des modèles 3D des s
 <img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/>   <img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="400"/>
 
 Toutefois, la plupart des modèles 3D de la ville est trop volumineuse et difficile à retravailler pour les adapter à notre projet. C'est le cas des bâtiments.
-Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon.
+Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon :
 
-*" Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
+<img src="./ImgOfReadMe/08.png" alt="Maisons Pokémon" width="700"/>
+
+*" Le projet me rappellait des jouets d'enfance Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
 *Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.*
 *Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double !"*
 
@@ -69,3 +76,15 @@ Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un je
 
 
 ### Evolution de la méthode de placement
+
+Après la réalisation de la grille hexagonale, nous placions cette grille comme étant notre monde.
+Dans ce monde, on ajoutait sur les tuiles des objets 3D.
+On regardait les voisins de chaque tuile et on plaçait (ou non, car l'objet avait une probalité de ne pas être possitionné) sur l'intersection du voisinage un modèle tiré aléatoirement dans une liste.
+L'intersection pouvait être un sommet ou le centre d'une tuile.
+
+<img src="./ImgOfReadMe/09.png" alt="Intersections" width="700"/>
+
+Finalement, nous avons décidé de séparer notre mond en plusieus unité dites biomes. Notre 1er biome est une ville.
+Les objets posés sur cartes ne sont pas les mêmes et ne sont pas posés de la même manière en fonction du type de biome.
+Par rapport à notre système de positionnement précédent, nous avons gardé un principe : On ne pose pas un objet entre des tuiles si elles n'ont pas la même hauteur.
+Nous avons terminé par poser des objets à proximité des routes et des rivières.
