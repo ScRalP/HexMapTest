@@ -107,4 +107,16 @@ public class City : Biome
          }
       }
    }
+
+   public override void FillPrefabsTab()
+   {
+      prefabs = new GameObject[7];
+      prefabs[0] = Resources.Load<GameObject>("Prefabs/Flag");
+      prefabs[1] = Resources.Load<GameObject>("Prefabs/Corto Maltese");
+      prefabs[2] = Resources.Load<GameObject>("Prefabs/Herge");
+      prefabs[3] = Resources.Load<GameObject>("Prefabs/Appartments");
+      prefabs[4] = Resources.Load<GameObject>("Prefabs/Authors House");
+      prefabs[5] = Resources.Load<GameObject>("Prefabs/Post Office");
+      prefabs[6] = Resources.Load<GameObject>("Prefabs/Cedar Tree");
+   }
 }

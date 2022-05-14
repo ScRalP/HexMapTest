@@ -8,6 +8,7 @@ public abstract class Biome : IMapGenerator
     protected System.Random rand;
     protected Array directions;
     protected List<HexCell> biomeCells;
+    protected GameObject[] prefabs;
 
     public Biome(HexGrid grid, System.Random rand)
     {
@@ -185,15 +186,127 @@ public abstract class Biome : IMapGenerator
 
     }
 
-    #endregion
+   #endregion
 
-    #region /*---------- DECORATIONS ----------*/
+   #region /*---------- DECORATIONS ----------*/
+   public abstract void SetBiomeColor();
 
-    #endregion
+   public abstract void FillPrefabsTab();
 
-    #endregion
+   protected bool CanDraw3DObject(HexCell[] neighborhood)
+   {
+      bool canMakeObject = false;
 
-    public int GetRandomCenteralLimitedValueBetween(int min, int max, double rigidity = 1)
+      if (neighborhood[1] != null && neighborhood[2] != null)
+      {
+         if (neighborhood[0].Elevation == neighborhood[1].Elevation && neighborhood[0].Elevation == neighborhood[2].Elevation)
+         {
+            canMakeObject = true;
+         }
+      }
+      return canMakeObject;
+   }
+
+   protected float Get3DObjectHeight(GameObject prefab)
+   {
+      float prefabHeight;
+      Debug.Log(prefab);
+
+      if (prefab.GetComponent<Renderer>() != null)
+      {
+         prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
+      }
+      else
+      {
+         prefabHeight = prefab.GetComponentInChildren<Renderer>().bounds.size.y;
+      }
+
+      return prefabHeight;
+   }
+
+   protected Vector3 ComputeIntersectionBetweenCells(Vector3 cell1, Vector3 cell2)
+   {
+      Vector3 intersection = new Vector3();
+
+      intersection.x = cell1.x + (cell2.x - cell1.x) / 2;
+      intersection.y = cell1.y + (cell2.y - cell1.y) / 2;
+      intersection.z = cell1.z + (cell2.z - cell1.z) / 2;
+
+      return intersection;
+   }
+
+   protected void Draw3DObject(Vector2 position, HexCell parent, bool firstElement)
+   {
+      int obj = 0; //ID for drawing first element
+
+      if(!firstElement)
+      {
+         obj = UnityEngine.Random.Range(1, prefabs.Length - 1); //Pick another ID
+      }
+
+      GameObject prefab = prefabs[obj];
+      float prefabHeight = Get3DObjectHeight(prefab);
+
+      // World positionning
+      Vector3 worldPos = new Vector3(position.x, parent.Position.y + prefabHeight / 2.0f, position.y);
+      GameObject.Instantiate(prefab, worldPos, Quaternion.identity, parent.transform);
+   }
+
+   public void Draw()
+   {
+      FillPrefabsTab();
+
+      Vector2 centerPos = new Vector2(biomeCells[0].Position.x, biomeCells[0].Position.z);
+
+      //Draw first object at center of the biome
+      Draw3DObject(centerPos, biomeCells[0], true);
+
+      for (int i = 0; i < biomeCells.Count; i++)
+      {
+         HexDirection[] directions = { HexDirection.NE, HexDirection.NW, HexDirection.SE, HexDirection.SW, HexDirection.E, HexDirection.W };
+
+         foreach (HexDirection dir in directions)
+         {
+            bool canMakeObject;
+
+            HexCell[] neighborhood = new HexCell[3];
+            neighborhood[0] = biomeCells[i];
+            neighborhood[1] = biomeCells[i].GetNeighbor(dir);
+
+            HexCell[] secondNeighbors = {biomeCells[i].GetNeighbor(HexDirectionExtensions.Next(dir)),
+                                         biomeCells[i].GetNeighbor(HexDirectionExtensions.Previous(dir)),
+                                         biomeCells[i].GetNeighbor(HexDirectionExtensions.Opposite(dir))};
+
+            for (int j = 0; j < secondNeighbors.Length; j++)
+            {
+               neighborhood[2] = secondNeighbors[j];
+
+               int chance = UnityEngine.Random.Range(0, 30);
+               canMakeObject = CanDraw3DObject(neighborhood) && (chance % 6 == 0);
+
+               if (canMakeObject)
+               {
+                  Vector3 temp1 = ComputeIntersectionBetweenCells(neighborhood[0].Position, neighborhood[1].Position);
+                  Vector3 temp2 = ComputeIntersectionBetweenCells(neighborhood[0].Position, neighborhood[2].Position);
+
+                  Vector3 tempPosition = ComputeIntersectionBetweenCells(temp1, temp2);
+                  Vector2 position = new Vector2(tempPosition.x, tempPosition.z);
+
+                  if (!grid.GetObjPositions().Contains(position))
+                  {
+                     grid.GetObjPositions().Add(position);
+                     Draw3DObject(position, neighborhood[0], false);
+                  }
+               }
+            }
+         }
+      }
+   }
+   #endregion
+
+   #endregion
+
+   public int GetRandomCenteralLimitedValueBetween(int min, int max, double rigidity = 1)
     {
         int nbIterations = (int)(10 * rigidity);
 
@@ -208,7 +321,7 @@ public abstract class Biome : IMapGenerator
         return (int)Math.Floor((double)(result / nbIterations));
     }
 
-   protected void SetBiomeCells(HexCell center, int size)
+   public void SetBiomeCells(HexCell center, int size)
    {
       biomeCells.Add(center);
       HexCell currentCell = center;
@@ -227,6 +340,4 @@ public abstract class Biome : IMapGenerator
          }
       }
    }
-
-   public abstract void SetBiomeColor();
 }

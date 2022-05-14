@@ -1,5 +1,6 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour
 {
@@ -22,6 +23,13 @@ public class HexGrid : MonoBehaviour
 
 	public Texture2D noiseSource;
 
+	private List<Vector2> objPositions;
+
+	public List<Vector2> GetObjPositions()
+   {
+		return objPositions;
+	}
+
 	void Awake()
 	{
 		chunkCountX = Random.Range(3, 7);
@@ -34,6 +42,8 @@ public class HexGrid : MonoBehaviour
 
 		CreateChunks();
 		CreateCells();
+
+		objPositions = new List<Vector2>();
 
 		//Procedural generation
 		GenerateMap gm = new GenerateMap(this);

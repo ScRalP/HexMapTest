@@ -24,4 +24,9 @@ public class Desert : Biome
          }
       }
    }
+
+   public override void FillPrefabsTab()
+   {
+
+   }
 }

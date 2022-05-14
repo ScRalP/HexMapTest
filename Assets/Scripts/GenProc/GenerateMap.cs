@@ -22,6 +22,7 @@ public class GenerateMap
         Biome biome = biomePool[rand.Next(biomePool.Length)];
         biome.Generate();
         biome.SetBiomeColor();
+        biome.Draw();
     }
 
 }

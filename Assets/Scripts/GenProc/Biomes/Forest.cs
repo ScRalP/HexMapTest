@@ -25,4 +25,8 @@ public class Forest : Biome
          }
       }
    }
+   public override void FillPrefabsTab()
+   {
+
+   }
 }
