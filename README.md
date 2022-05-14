@@ -13,7 +13,7 @@ Il est possible de tracer des chemins entre ces tuiles et de poser des habitatio
 
 Inspiration vidéoludique : Northgard
 
-<img src="https://s1.dmcdn.net/v/To_3Q1YK4gZ-LnuEJ/x1080g" alt="Northgard" width="300"/>
+<img src="https://s1.dmcdn.net/v/To_3Q1YK4gZ-LnuEJ/x1080" alt="Northgard" width="300"/>
 
 Northgard est un jeu de stratégie temps-réel. Il implique une gestion de ressources disponibles en interagissant avec une carte.
 La carte est composée de tuiles hexagonales. C'est plus ou moins ce type de visuel que nous souhaitions reproduire.
