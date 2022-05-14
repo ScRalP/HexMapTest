@@ -13,7 +13,7 @@ Il est possible de tracer des chemins entre ces tuiles et de poser des habitatio
 
 Inspiration vidéoludique : Northgard
 
-<img src="https://s1.dmcdn.net/v/To_3Q1YK4gZ-LnuEJ/x1080" alt="Northgard" width="300"/>
+<img src="https://s1.dmcdn.net/v/To_3Q1YK4gZ-LnuEJ/x1080" alt="Northgard" width="500"/>
 
 Northgard est un jeu de stratégie temps-réel. Il implique une gestion de ressources disponibles en interagissant avec une carte.
 La carte est composée de tuiles hexagonales. C'est plus ou moins ce type de visuel que nous souhaitions reproduire.
@@ -25,8 +25,11 @@ Dans un 1er temps, nous avons seulement utilisé les éléments du 1er tutotiel pou
 
 Les routes sont faites à partir de tuiles hexagonales :
 
-<img src="./ImgOfReadMe/01.png" alt="1re étape" width="300"/>
+<img src="./ImgOfReadMe/01.png" alt="1re étape" width="600"/>
 
+Nous avons abandonné cette idée pour suivre au mieux le tutoriel et fournir une grille de tuiles. Nous y avons ajouter des hauteurs à certaines tuiles de manière aléatoire pour créer des reliefs :
+
+<img src="./ImgOfReadMe/02.png" alt="Ajout de reliefs" width="400"/>
 
 
 ## Peuplement de la carte
