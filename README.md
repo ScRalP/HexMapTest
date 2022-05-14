@@ -50,13 +50,12 @@ Au début du projet, nous souhaitions reproduire une ville avec des routes compos
 Pour faire honneur à l'endroit où nous étudions, nous voulions utiliser des modèles 3D significatifs de la ville d'Angoulême.
 Pour illuster la ville de la Bande Dessinée, nous utilisons des modèles 3D des statues de Hergé (le créateur de Tintin) et de Corto Maltese.
 
-<img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/>
-<img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="400"/>
+<img src="./ImgOfReadMe/03.png" alt="Hergé" width="300"/><img src="./ImgOfReadMe/04.png" alt="Corto Maltese" width="400"/>
 
 Toutefois, la plupart des modèles 3D de la ville est trop volumineuse et difficile à retravailler pour les adapter à notre projet. C'est le cas des bâtiments.
 Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un jeu Pokémon.
 
-***"** *Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
+**"** *Le projet me rappellait des jouets d'enfances Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde de pokémon.*
 *Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.*
 *Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double !* **"**
 
