@@ -194,10 +194,20 @@ public abstract class Biome : IMapGenerator
    protected Color redSandColor = new Color(0.8f, 0.5f, 0.3f);
    protected Color stoneColor = new Color(0.5f, 0.5f, 0.45f);
 
+   /// <summary>
+   /// Colorie les tuiles du biome
+   /// </summary>
    public abstract void SetBiomeColor();
 
+   /// <summary>
+   /// Remplit le teableau contenant les prefabs qui vont être instanciés
+   /// </summary>
    public abstract void FillPrefabsTab();
 
+   /// <summary>
+   /// Vérifie si une tuile et ses voisines ont la même hauteur
+   /// </summary>
+   /// <param name="neighborhood">tableau de tuiles voisines</param>
    protected bool CanDraw3DObject(HexCell[] neighborhood)
    {
       bool canMakeObject = false;
@@ -212,6 +222,10 @@ public abstract class Biome : IMapGenerator
       return canMakeObject;
    }
 
+   /// <summary>
+   /// Récupère la hauteur d'un modèle 3D pour calculer ses coordonnées de posistionnement
+   /// </summary>
+   /// <param name="prefab">modèle 3D</param>
    protected float Get3DObjectHeight(GameObject prefab)
    {
       float prefabHeight;
@@ -229,6 +243,11 @@ public abstract class Biome : IMapGenerator
       return prefabHeight;
    }
 
+   /// <summary>
+   /// Calcule l'intsersection entre 2 tuiles pour y placer un modèle 3D
+   /// </summary>
+   /// <param name="cell1">1re tuile</param>
+   /// <param name="cell2">2e tuile</param>
    protected Vector3 ComputeIntersectionBetweenCells(Vector3 cell1, Vector3 cell2)
    {
       Vector3 intersection = new Vector3();
@@ -240,6 +259,12 @@ public abstract class Biome : IMapGenerator
       return intersection;
    }
 
+   /// <summary>
+   /// PLace un objet 3D à une position donnée en tant que fille d'une tuile
+   /// </summary>
+   /// <param name="position">Position donnée</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   /// <param name="firstElement">Détermine s'il s'agit du 1er objet à poser ou non</param>
    protected void Draw3DObject(Vector2 position, HexCell parent, bool firstElement)
    {
       int obj = 0; //ID for drawing first element
@@ -257,6 +282,9 @@ public abstract class Biome : IMapGenerator
       GameObject.Instantiate(prefab, worldPos, Quaternion.identity, parent.transform);
    }
 
+   /// <summary>
+   /// Place Des objets 3D dans le biome
+   /// </summary>
    public void Draw()
    {
       FillPrefabsTab();
