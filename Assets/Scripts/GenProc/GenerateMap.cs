@@ -21,6 +21,8 @@ public class GenerateMap
         //Tirage d'un biome & génération
         Biome biome = biomePool[rand.Next(biomePool.Length)];
         biome.Generate();
+        biome.SetBiomeColor();
+        biome.Draw();
     }
 
 }

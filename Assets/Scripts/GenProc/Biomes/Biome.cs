@@ -7,6 +7,8 @@ public abstract class Biome : IMapGenerator
     protected HexGrid grid;
     protected System.Random rand;
     protected Array directions;
+    protected HexCell[] biomeCells;
+    protected GameObject[] prefabs;
 
     public Biome(HexGrid grid, System.Random rand)
     {
@@ -171,7 +173,7 @@ public abstract class Biome : IMapGenerator
                 else
                 { //Cellule valide
                     cellValid = true;
-
+                    
                     //Create road between cells
                     currentCell.AddRoad(randDirection);
 
@@ -183,15 +185,173 @@ public abstract class Biome : IMapGenerator
 
     }
 
-    #endregion
+   #endregion
 
-    #region /*---------- DECORATIONS ----------*/
+   #region /*---------- DECORATIONS ----------*/
 
-    #endregion
+   protected Color grassColor = new Color(0.4f, 0.5f, 0f);
+   protected Color sandColor = new Color(0.8f, 0.7f, 0.3f);
+   protected Color redSandColor = new Color(0.8f, 0.5f, 0.3f);
+   protected Color stoneColor = new Color(0.5f, 0.5f, 0.45f);
 
-    #endregion
+   /// <summary>
+   /// Colorie les tuiles du biome
+   /// </summary>
+   public abstract void SetBiomeColor();
 
-    public int GetRandomCenteralLimitedValueBetween(int min, int max, double rigidity = 1)
+   /// <summary>
+   /// Remplit le teableau contenant les prefabs qui vont être instanciés
+   /// </summary>
+   public abstract void FillPrefabsTab();
+
+   /// <summary>
+   /// Vérifie si une tuile et ses voisines ont la même hauteur
+   /// </summary>
+   /// <param name="neighborhood">tableau de tuiles voisines</param>
+   protected bool CanDraw3DObject(HexCell[] neighborhood)
+   {
+      bool canMakeObject = false;
+
+      if (neighborhood[1] != null && neighborhood[2] != null)
+      {
+         if (neighborhood[0].Elevation == neighborhood[1].Elevation && neighborhood[0].Elevation == neighborhood[2].Elevation)
+         {
+            canMakeObject = true;
+         }
+      }
+      return canMakeObject;
+   }
+
+   /// <summary>
+   /// Récupère la hauteur d'un modèle 3D pour calculer ses coordonnées de posistionnement
+   /// </summary>
+   /// <param name="prefab">modèle 3D</param>
+   protected float Get3DObjectHeight(GameObject prefab)
+   {
+      float prefabHeight;
+      Debug.Log(prefab);
+      if (prefab.GetComponent<Renderer>() != null)
+      {
+         prefabHeight = prefab.GetComponent<Renderer>().bounds.size.y;
+      }
+      else
+      {
+         prefabHeight = prefab.GetComponentInChildren<Renderer>().bounds.size.y;
+      }
+
+      return prefabHeight;
+   }
+
+   /// <summary>
+   /// Calcule l'intsersection entre 2 tuiles pour y placer un modèle 3D
+   /// </summary>
+   /// <param name="cell1">1re tuile</param>
+   /// <param name="cell2">2e tuile</param>
+   protected Vector3 ComputeIntersectionBetweenCells(Vector3 cell1, Vector3 cell2)
+   {
+      Vector3 intersection = new Vector3();
+
+      intersection.x = cell1.x + (cell2.x - cell1.x) / 2;
+      intersection.y = cell1.y + (cell2.y - cell1.y) / 2;
+      intersection.z = cell1.z + (cell2.z - cell1.z) / 2;
+
+      return intersection;
+   }
+
+   /// <summary>
+   /// Choisit un objet 3D à placer
+   /// </summary>
+   /// <param name="position">Position du placement</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   /// <param name="firstElement">Détermine s'il s'agit du 1er objet à poser ou non</param>
+   public abstract int Choose3DObject(Vector2 position, HexCell parent, bool firstElement);
+
+   /// <summary>
+   /// Place un objet 3D
+   /// </summary>
+   /// <param name="position">Position du placement</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   /// <param name="firstElement">Détermine s'il s'agit du 1er objet à poser ou non</param>
+   private void Draw3DObject(Vector2 position, HexCell parent, bool firstElement)
+   {
+      int objID = Choose3DObject(position, parent, firstElement);
+      Instantiate3DObject(objID, position, parent);
+   }
+
+   /// <summary>
+   /// Crée une instance de l'objet 3D placé
+   /// </summary>
+   /// <param name="objID">Identifiant de l'objet à placer</param>
+   /// <param name="position">Position de placement</param>
+   /// <param name="parent">Tuile parente au modèle dans la hiérarchie de la scène</param>
+   private void Instantiate3DObject(int objID, Vector2 position, HexCell parent)
+   {
+      GameObject prefab = prefabs[objID];
+      float prefabHeight = Get3DObjectHeight(prefab);
+
+      // World positionning
+      Vector3 worldPos = new Vector3(position.x, parent.Position.y + prefabHeight / 2.0f, position.y);
+      GameObject.Instantiate(prefab, worldPos, Quaternion.identity, parent.transform);
+   }
+
+   /// <summary>
+   /// Place Des objets 3D dans le biome
+   /// </summary>
+   public void Draw()
+   {
+      FillPrefabsTab();
+
+      Vector2 centerPos = new Vector2(biomeCells[0].Position.x, biomeCells[0].Position.z);
+
+      //Dessine le 1er objet au centre du biome
+      Draw3DObject(centerPos, biomeCells[0], true);
+
+      for (int i = 0; i < biomeCells.Length; i++)
+      {
+         HexDirection[] directions = { HexDirection.NE, HexDirection.NW, HexDirection.SE, HexDirection.SW, HexDirection.E, HexDirection.W };
+
+         foreach (HexDirection dir in directions)
+         {
+            bool canMakeObject;
+
+            HexCell[] neighborhood = new HexCell[3];
+            neighborhood[0] = biomeCells[i];
+            neighborhood[1] = biomeCells[i].GetNeighbor(dir);
+
+            HexCell[] secondNeighbors = {biomeCells[i].GetNeighbor(HexDirectionExtensions.Next(dir)),
+                                         biomeCells[i].GetNeighbor(HexDirectionExtensions.Previous(dir)),
+                                         biomeCells[i].GetNeighbor(HexDirectionExtensions.Opposite(dir))};
+
+            for (int j = 0; j < secondNeighbors.Length; j++)
+            {
+               neighborhood[2] = secondNeighbors[j];
+
+               int chance = UnityEngine.Random.Range(0, 30);
+               canMakeObject = CanDraw3DObject(neighborhood) && (chance % 6 == 0);
+
+               if (canMakeObject)
+               {
+                  Vector3 temp1 = ComputeIntersectionBetweenCells(neighborhood[0].Position, neighborhood[1].Position);
+                  Vector3 temp2 = ComputeIntersectionBetweenCells(neighborhood[0].Position, neighborhood[2].Position);
+
+                  Vector3 tempPosition = ComputeIntersectionBetweenCells(temp1, temp2);
+                  Vector2 position = new Vector2(tempPosition.x, tempPosition.z);
+
+                  if (!grid.GetObjPositions().Contains(position))
+                  {
+                     grid.GetObjPositions().Add(position);
+                     Draw3DObject(position, neighborhood[0], false);
+                  }
+               }
+            }
+         }
+      }
+   }
+   #endregion
+
+   #endregion
+
+   public int GetRandomCenteralLimitedValueBetween(int min, int max, double rigidity = 1)
     {
         int nbIterations = (int)(10 * rigidity);
 
@@ -206,4 +366,24 @@ public abstract class Biome : IMapGenerator
         return (int)Math.Floor((double)(result / nbIterations));
     }
 
+   public void SetBiomeCells(HexCell center, int size)
+   {
+      biomeCells = grid.GetCells();
+      
+      //HexCell currentCell = center;
+      //
+      //for(int cell = 0; cell <= size/2; cell++)
+      //{
+      //   for(int dir = 0; dir <= 5; dir++)
+      //   {
+      //      HexCell neighbor = currentCell.GetNeighbor((HexDirection)dir);
+      //
+      //      if (neighbor != null)
+      //      {
+      //         biomeCells.Add(neighbor);
+      //         currentCell = neighbor;
+      //      }
+      //   }
+      //}
+   }
 }

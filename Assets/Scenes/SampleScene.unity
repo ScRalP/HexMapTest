@@ -2056,29 +2056,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &570809646
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 570809643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a41afab3eb7eb8448b2720e1e52687ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabs:
-  - {fileID: 7703655789497079561, guid: 0cb74677e231c0446947484efd1c8243, type: 3}
-  - {fileID: 5471046193971256639, guid: 7640fd4403b7f4c47bdca6e892bf8729, type: 3}
-  - {fileID: 2471226116600426951, guid: 1f2e59c2f0d916948965951d8544c243, type: 3}
-  - {fileID: 5274073511477276293, guid: 643f61b260546b248822039bb53e0c28, type: 3}
-  - {fileID: 8050757367071692396, guid: e35942f4f136b064b8e4a3efbdb85bc6, type: 3}
-  - {fileID: 5348215959322072137, guid: d3a51820ea3002f4db0f3f665e9d0435, type: 3}
-  - {fileID: 6620811346050387773, guid: 7fd404d9d648c2c49a2fd18bc5d9509e, type: 3}
-  - {fileID: 3031136005020653025, guid: 351cf92dceea4c140b4a085c7e0eab62, type: 3}
-  - {fileID: 1730103634845608404, guid: a94ffd999c96b3d45ba2f5c1421d6aaa, type: 3}
-  - {fileID: 8043167798469520843, guid: dba6abcbcf3fe9048b37fac5afc27d44, type: 3}
 --- !u!1 &669406964
 GameObject:
   m_ObjectHideFlags: 0

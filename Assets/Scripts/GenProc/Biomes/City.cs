@@ -116,6 +116,7 @@ public class City : Biome
             int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
 
             cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
+        SetBiomeCells(cityCenter, citySize);
 
         } while (cityCenter.WaterLevel > cityCenter.Elevation);
 
@@ -127,6 +128,56 @@ public class City : Biome
             GenerateRoad(cityCenter, randDir, roadLength, 0.5);
         }
     }
+
+   public override void SetBiomeColor()
+   {
+      foreach(HexCell cell in biomeCells)
+      {
+         int colorChance = UnityEngine.Random.Range(0, 10);
+
+         if(colorChance <= 2)
+         {
+            cell.Color = sandColor;
+         }
+         else if (colorChance >= 3 && colorChance <= 7)
+         {
+            cell.Color = stoneColor;
+         }
+         else
+         {
+            cell.Color = grassColor;
+         }
+      }
+   }
+
+   public override void FillPrefabsTab()
+   {
+      prefabs = new GameObject[5];
+      prefabs[0] = Resources.Load<GameObject>("Prefabs/Flag");
+      prefabs[1] = Resources.Load<GameObject>("Prefabs/Cyndaquil House");
+      prefabs[2] = Resources.Load<GameObject>("Prefabs/Chikitora House");
+      prefabs[3] = Resources.Load<GameObject>("Prefabs/Totodile House");
+      prefabs[4] = Resources.Load<GameObject>("Prefabs/Cedar Tree");
+   }
+
+   public override int Choose3DObject(Vector2 position, HexCell parent, bool firstElement)
+   {
+      int obj = 0; // ID pour le premier objet
+
+      if (!firstElement)
+      {
+         if(parent.Color == grassColor) // Si la tuile est recouverte d'herbe
+         {
+            obj = 5; // Place des arbres sur l'herbe
+         }
+         else
+         {
+            obj = UnityEngine.Random.Range(1, 4); // Place des habitations
+         }
+      }
+
+      return obj;
+   }
 
     private void ChangeColor(HexCell cell)
     {
