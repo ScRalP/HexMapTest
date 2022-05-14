@@ -34,7 +34,10 @@ Nous avons abandonné cette idée pour suivre au mieux le tutoriel et fournir une 
 ## Peuplement de la carte
 
 ### Tracé des routes
+Pour le tracé des routes, nous avons repris notre idée de départ. Il s'agit de donner à la route une direction princpale qu'elle suit dans l'ensemble. On crée la route par petits bouts et à chaque bout posé, on tire dans une pile une direction alétaoire pour créer des petites déviations de la route. A chaque tirage, la pile change de façon à permettre à la route de suivre sa direction principale et de ne pas piocher tout le temps la même direction.
+Pour la génération des routes, nous nous sommes basés sur une génération similaire à celles des niveaux dans le jeu [Spellunky](https://www.youtube.com/watch?v=Uqk5Zf0tw3o&t=3s).
 
-### Tracé des rivières
+### Génération des rivières
+
 
 ### Placement de modèles 3D
