@@ -94,7 +94,6 @@ public class City : Biome
             {
                 if (neighbor.Elevation < waterLevel && !cells.Contains(neighbor))
                 {
-                    //Debug.Log("neighbor : " + neighbor.Elevation + " - current : " + currentCell.Elevation);
                     GenerateWater(neighbor, cells, waterLevel);
                 }
             }
@@ -103,11 +102,15 @@ public class City : Biome
 
     private void GenerateCity(int citySize)
     {
-        //On détermine le centre de la ville
-        int randX = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeX);
-        int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
+        HexCell cityCenter;
+        do {
+            //On détermine le centre de la ville
+            int randX = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeX);
+            int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
 
-        HexCell cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
+            cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
+
+        } while (cityCenter.WaterLevel > cityCenter.Elevation);
 
         int nbRoads = rand.Next(citySize, citySize * 3);
         for (int i = 0; i < nbRoads; i++)
