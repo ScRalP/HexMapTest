@@ -76,6 +76,7 @@ public class City : Biome
         Debug.Log(randX + ":" + randZ + " - " + citySize);
 
         HexCell cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
+        SetBiomeCells(cityCenter, citySize);
 
         int nbRoads = rand.Next(citySize, citySize * 3);
         for (int i = 0; i < nbRoads; i++)
@@ -85,4 +86,25 @@ public class City : Biome
             GenerateRoad(cityCenter, randDir, roadLength, 0.5);
         }
     }
+
+   public override void SetBiomeColor()
+   {
+      foreach(HexCell cell in biomeCells)
+      {
+         int colorChance = UnityEngine.Random.Range(0, 10);
+
+         if(colorChance <= 3)
+         {
+            cell.Color = Color.grey;
+         }
+         else if (colorChance >= 4 && colorChance <= 7)
+         {
+             cell.Color = Color.green;
+         }
+         else
+         {
+            cell.Color = Color.yellow;
+         }
+      }
+   }
 }

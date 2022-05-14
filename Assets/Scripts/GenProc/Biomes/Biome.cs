@@ -7,12 +7,14 @@ public abstract class Biome : IMapGenerator
     protected HexGrid grid;
     protected System.Random rand;
     protected Array directions;
+    protected List<HexCell> biomeCells;
 
     public Biome(HexGrid grid, System.Random rand)
     {
         this.grid = grid;
         this.rand = rand;
         this.directions = Enum.GetValues(typeof(HexDirection));
+        this.biomeCells = new List<HexCell>();
     }
 
     public abstract void Generate();
@@ -171,7 +173,7 @@ public abstract class Biome : IMapGenerator
                 else
                 { //Cellule valide
                     cellValid = true;
-
+                    
                     //Create road between cells
                     currentCell.AddRoad(randDirection);
 
@@ -206,4 +208,25 @@ public abstract class Biome : IMapGenerator
         return (int)Math.Floor((double)(result / nbIterations));
     }
 
+   protected void SetBiomeCells(HexCell center, int size)
+   {
+      biomeCells.Add(center);
+      HexCell currentCell = center;
+
+      for(int cell = 0; cell <= size/2; cell++)
+      {
+         for(int dir = 0; dir <= 5; dir++)
+         {
+            HexCell neighbor = currentCell.GetNeighbor((HexDirection)dir);
+
+            if (neighbor != null)
+            {
+               biomeCells.Add(neighbor);
+               currentCell = neighbor;
+            }
+         }
+      }
+   }
+
+   public abstract void SetBiomeColor();
 }
