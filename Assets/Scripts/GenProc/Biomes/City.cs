@@ -8,6 +8,9 @@ public class City : Biome
 
     public override void Generate()
     {
+        SetBiomeCells();
+        FillPrefabsTab();
+
 
         //Elevation des cases
         RandomizeElevation();
@@ -22,6 +25,7 @@ public class City : Biome
             riversEnd.Add(riverEnd);
         }
 
+        int nbFloodedCells = 0;
         //On ajoutes des lacs (si possible) au bout des rivières
         foreach (HexCell cell in riversEnd)
         {
@@ -35,6 +39,7 @@ public class City : Biome
                 //Si on remplis pas trop la carte d'eau
                 if (((double)waterCells.Count / (double)grid.GetCells().Length) < 0.5)
                 {
+                    nbFloodedCells += waterCells.Count;
                     //On ajoutes l'eau aux tuiles
                     foreach (HexCell waterCell in waterCells)
                     {
@@ -45,21 +50,40 @@ public class City : Biome
 
         }
 
-        //Créer plusieurs villes en fonction de la taille de la carte (nombre de cell)
-        int nbCities = 1 + (grid.GetCells().Length / 150);
+        //Créer plusieurs villes en fonction du nombre de cellules restantes
+        int nbCities = 1 + ((grid.GetCells().Length - nbFloodedCells) / 250);
         for (int i = 0; i < nbCities; i++)
         {
             int minLength = rand.Next(Math.Min(grid.chunkCountX, grid.chunkCountZ), Math.Max(grid.chunkCountX, grid.chunkCountZ));
             int maxLength = rand.Next(grid.chunkCountX + grid.chunkCountZ, grid.chunkCountX * grid.chunkCountZ);
 
-            int citySize = rand.Next(minLength, maxLength);//todo: random map size
-            GenerateCity(citySize);
+            int citySize = rand.Next(minLength, maxLength);
+            List<HexCell> citiesCenter = new List<HexCell>();
+            GenerateCity(citySize, citiesCenter);
         }
 
         //Mettre de la couleur sur les cases
         foreach (HexCell cell in grid.GetCells())
         {
             ChangeColor(cell);
+        }
+
+        //Ajouter du décors
+        foreach (HexCell cell in grid.GetCells())
+        {
+            if(cell.Color == Colors.FOREST && !cell.HasRiver)
+            {
+                //Ajouter des arbres
+                int nbTrees = rand.Next(2, 8);
+                for(int i = 0; i<nbTrees; i++)
+                {
+                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.NextDouble(), 0);
+                    float randTransformX = (float)(rand.NextDouble() - 0.5);
+                    float randTransformZ = (float)(rand.NextDouble() - 0.5);
+
+                    Draw3DObject(cell, Prefabs.TREE, randRotation, randTransformX, randTransformZ);
+                }
+            }
         }
     }
 
@@ -106,30 +130,44 @@ public class City : Biome
         }
     }
 
-    private void GenerateCity(int citySize)
+    private void GenerateCity(int citySize, List<HexCell> citiesCenter)
     {
         HexCell cityCenter;
-        do
-        {
+        bool isTooCloseFromOtherCity;
+        do {
+            isTooCloseFromOtherCity = false;
             //On détermine le centre de la ville
             int randX = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeX);
             int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
 
             cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
-        SetBiomeCells(cityCenter, citySize);
 
-        } while (cityCenter.WaterLevel > cityCenter.Elevation);
+            foreach (HexCell cell in citiesCenter)
+            {
+                if (HexMetrics.DistanceBetweenCells(cityCenter, cell) * 2 < citySize)
+                {
+                    isTooCloseFromOtherCity = true;
+                }
+            }
+        } while (cityCenter.WaterLevel > cityCenter.Elevation && !isTooCloseFromOtherCity);
 
-        int nbRoads = rand.Next(citySize, citySize * 3);
-        for (int i = 0; i < nbRoads; i++)
+
+        if (cityCenter != null)
         {
-            HexDirection randDir = (HexDirection)directions.GetValue(rand.Next(directions.Length));
-            int roadLength = rand.Next(0, citySize);
-            GenerateRoad(cityCenter, randDir, roadLength, 0.5);
+
+            citiesCenter.Add(cityCenter);
+
+            int nbRoads = rand.Next(citySize, citySize * 3);
+            for (int i = 0; i < nbRoads; i++)
+            {
+                HexDirection randDir = (HexDirection)directions.GetValue(rand.Next(directions.Length));
+                int roadLength = rand.Next(0, citySize);
+                GenerateRoad(cityCenter, randDir, roadLength, 0.5);
+            }
         }
     }
 
-   public override void FillPrefabsTab()
+    public override void FillPrefabsTab()
    {
       prefabs = new GameObject[5];
       prefabs[0] = Resources.Load<GameObject>("Prefabs/Flag");
