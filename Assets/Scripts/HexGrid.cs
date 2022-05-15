@@ -1,13 +1,13 @@
 ﻿using UnityEngine.UI;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class HexGrid : MonoBehaviour
 {
-	//public int width = 6;
-	//public int height = 6;
-
 	//chunks
-	public int chunkCountX = 4, chunkCountZ = 3;
+	public int chunkCountX { get; set; }
+	public int chunkCountZ { get; set; }
+
 	int cellCountX, cellCountZ;
 
 	//prefabs
@@ -18,37 +18,37 @@ public class HexGrid : MonoBehaviour
 	HexCell[] cells;
 	HexGridChunk[] chunks;
 
-	//HexMesh hexMesh;
-	//Canvas gridCanvas;
-
 	public Color defaultColor = Color.white;
 	public Color touchedColor = Color.magenta;
 
 	public Texture2D noiseSource;
 
+	private List<Vector2> objPositions;
+
+	public List<Vector2> GetObjPositions()
+   {
+		return objPositions;
+	}
+
 	void Awake()
 	{
-		HexMetrics.noiseSource = noiseSource;
+		chunkCountX = Random.Range(3, 7);
+		chunkCountZ = Random.Range(2, 6);
 
-		//gridCanvas = GetComponentInChildren<Canvas>();
-		//hexMesh = GetComponentInChildren<HexMesh>();
+		HexMetrics.noiseSource = noiseSource;
 
 		cellCountX = chunkCountX * HexMetrics.chunkSizeX;
 		cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
 		CreateChunks();
 		CreateCells();
+
+		objPositions = new List<Vector2>();
+
+		//Procedural generation
+		GenerateMap gm = new GenerateMap(this);
+		gm.Generate();
 	}
-
-	//void Start()
-	//{
-	//	hexMesh.Triangulate(cells);
-	//}
-
-	//public void Refresh()
-	//{
-	//	hexMesh.Triangulate(cells);
-	//}
 
 	void CreateChunks()
 	{
@@ -171,4 +171,10 @@ public class HexGrid : MonoBehaviour
 			chunks[i].ShowUI(visible);
 		}
 	}
+	public HexCell[] GetCells()
+	{
+		return cells;
+	}
+
+
 }

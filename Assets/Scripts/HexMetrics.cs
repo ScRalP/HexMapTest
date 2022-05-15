@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class HexMetrics
 {
@@ -135,5 +136,14 @@ public static class HexMetrics
 		position.x += (sample.x * 2f - 1f) * cellPerturbStrength;
 		position.z += (sample.z * 2f - 1f) * cellPerturbStrength;
 		return position;
+	}
+
+	public static int DistanceBetweenCells(HexCell c1, HexCell c2)
+    {
+		return Mathf.Max(
+				Math.Abs(c1.coordinates.X - c2.coordinates.X),
+				Math.Abs(c1.coordinates.Y - c2.coordinates.Y),
+				Math.Abs(c1.coordinates.Z - c2.coordinates.Z)
+			);
 	}
 }

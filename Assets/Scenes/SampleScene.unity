@@ -2035,8 +2035,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f61a2aecf8e9ae54488bc18701811164, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkCountX: 4
-  chunkCountZ: 3
   cellPrefab: {fileID: 384010082}
   cellLabelPrefab: {fileID: 42695511}
   chunkPrefab: {fileID: 5724475910628105467, guid: bb0f4f0b0f95d2a4699a45275bcb1ae5,
