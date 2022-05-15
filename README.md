@@ -65,7 +65,7 @@ Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un je
 
 <img src="./ImgOfReadMe/08.png" alt="Maisons Pokémon" width="700"/>
 
-*" Le projet me rappellait des jouets d'enfance Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde des pokémons.*
+*"Le projet me rappellait des jouets d'enfance Pokémon. C'est des petites créatures qu'on accroche à des pièces hexagonales qui s'assemble pour former un monde : le monde des pokémons.*
 *Quand j'allais au supermarché, je dépensais toujours une pièce de 2 euros pour repartir avec un prokémon au hasard.*
 *Pour former le monde le plus grand possible, il me fallait beaucoup de pièces hexagonales. Peut importait si j'avais des pokémons en double !"*
 
@@ -78,7 +78,7 @@ Pour peupler notre carte d'habitations, nous avons récupérer des modèles d'un je
 ### Evolution de la méthode de placement
 
 Après la réalisation de la grille hexagonale, nous placions cette grille comme étant notre monde. Dans ce monde, on ajoutait sur les tuiles des objets 3D. 
-On regardait les voisins de chaque tuile et on plaçait (ou non, car l'objet avait une probalité de ne pas être possitionné) sur l'intersection du voisinage un modèle tiré aléatoirement dans une liste.
+On regardait les voisins de chaque tuile et on plaçait (ou non, car l'objet avait une probalité de ne pas être positionné) sur l'intersection du voisinage un modèle tiré aléatoirement dans une liste.
 L'intersection pouvait être un sommet ou le centre d'une tuile.
 
 <img src="./ImgOfReadMe/09.png" alt="Intersections" width="350"/>
