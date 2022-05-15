@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Prefabs : MonoBehaviour
 {
@@ -11,7 +9,9 @@ public class Prefabs : MonoBehaviour
 
     //Decoration
     public static GameObject FLAG = Resources.Load<GameObject>("Prefabs/Flag");
-    
+
     //Vegetals
-    public static GameObject TREE = Resources.Load<GameObject>("Prefabs/Cedar Tree");
+    public static GameObject CEDAR_TREE  = Resources.Load<GameObject>("Prefabs/Cedar Tree");
+    public static GameObject PALM_TREE   = Resources.Load<GameObject>("Prefabs/Palm Tree");
+    public static GameObject BAMBOO_TREE = Resources.Load<GameObject>("Prefabs/Bamboo Tree");
 }

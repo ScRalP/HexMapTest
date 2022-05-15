@@ -25,7 +25,7 @@ public class City : Biome
             riversEnd.Add(riverEnd);
         }
 
-        int nbFloodedCells = 0;
+        List<HexCell> nonFloodedCells = new List<HexCell>( grid.GetCells() );
         //On ajoutes des lacs (si possible) au bout des rivières
         foreach (HexCell cell in riversEnd)
         {
@@ -39,27 +39,26 @@ public class City : Biome
                 //Si on remplis pas trop la carte d'eau
                 if (((double)waterCells.Count / (double)grid.GetCells().Length) < 0.5)
                 {
-                    nbFloodedCells += waterCells.Count;
                     //On ajoutes l'eau aux tuiles
                     foreach (HexCell waterCell in waterCells)
                     {
                         waterCell.WaterLevel = waterLevel;
+                        nonFloodedCells.Remove(waterCell);
                     }
                 }
             }
-
         }
 
         //Créer plusieurs villes en fonction du nombre de cellules restantes
-        int nbCities = 1 + ((grid.GetCells().Length - nbFloodedCells) / 250);
+        List<HexCell> citiesCenter = new List<HexCell>();
+        int nbCities = 1 + (nonFloodedCells.Count / 250);
         for (int i = 0; i < nbCities; i++)
         {
             int minLength = rand.Next(Math.Min(grid.chunkCountX, grid.chunkCountZ), Math.Max(grid.chunkCountX, grid.chunkCountZ));
             int maxLength = rand.Next(grid.chunkCountX + grid.chunkCountZ, grid.chunkCountX * grid.chunkCountZ);
 
             int citySize = rand.Next(minLength, maxLength);
-            List<HexCell> citiesCenter = new List<HexCell>();
-            GenerateCity(citySize, citiesCenter);
+            GenerateCity(citySize, citiesCenter, nonFloodedCells);
         }
 
         //Mettre de la couleur sur les cases
@@ -71,17 +70,43 @@ public class City : Biome
         //Ajouter du décors
         foreach (HexCell cell in grid.GetCells())
         {
-            if(cell.Color == Colors.FOREST && !cell.HasRiver)
+            if(cell.Color == Colors.FOREST && !cell.HasRiver && !cell.HasRoads) // add Trees
             {
                 //Ajouter des arbres
                 int nbTrees = rand.Next(2, 8);
                 for(int i = 0; i<nbTrees; i++)
                 {
-                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.NextDouble(), 0);
+                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.Next(360), 0);
                     float randTransformX = (float)(rand.NextDouble() - 0.5);
                     float randTransformZ = (float)(rand.NextDouble() - 0.5);
 
-                    Draw3DObject(cell, Prefabs.TREE, randRotation, randTransformX, randTransformZ);
+                    Draw3DObject(cell, Prefabs.CEDAR_TREE, randTransformX, randTransformZ, randRotation);
+                }
+            } else if(cell.Color == Colors.SAND)
+            {
+                //Ajouter des palmiers
+                if(rand.NextDouble() < 0.5)
+                {
+                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.Next(360), 0);
+                    float randTransformX = (float)(rand.NextDouble() - 0.5);
+                    float randTransformZ = (float)(rand.NextDouble() - 0.5);
+
+                    Draw3DObject(cell, Prefabs.PALM_TREE, randTransformX, randTransformZ, randRotation);
+                }
+            }
+            
+            if (cell.HasRoads)
+            {
+                for (int i = 0; i < rand.Next(2); i++)
+                {
+                    GameObject[] houses = new GameObject[] { Prefabs.CHIKITORA_HOUSE, Prefabs.CYNDAQUIL_HOUSE, Prefabs.TOTODILE_HOUSE };
+
+                    //Ajouter des habitations
+                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.Next(360), 0);
+                    float randTransformX = (float)(rand.NextDouble() - 0.5);
+                    float randTransformZ = (float)(rand.NextDouble() - 0.5);
+
+                    Draw3DObject(cell, houses[rand.Next(houses.Length)], randTransformX, randTransformZ, randRotation);
                 }
             }
         }
@@ -130,31 +155,29 @@ public class City : Biome
         }
     }
 
-    private void GenerateCity(int citySize, List<HexCell> citiesCenter)
+    private void GenerateCity(int citySize, List<HexCell> citiesCenter, List<HexCell> nonFloodedCells)
     {
-        HexCell cityCenter;
+        HexCell cityCenter = null;
         bool isTooCloseFromOtherCity;
         do {
             isTooCloseFromOtherCity = false;
-            //On détermine le centre de la ville
-            int randX = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeX);
-            int randZ = rand.Next(grid.chunkCountX * HexMetrics.chunkSizeZ / 2);
 
-            cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
+            int indexToRemove = rand.Next(nonFloodedCells.Count - 1);
+            cityCenter = nonFloodedCells[indexToRemove]; 
+            nonFloodedCells.RemoveAt(indexToRemove);
 
             foreach (HexCell cell in citiesCenter)
             {
-                if (HexMetrics.DistanceBetweenCells(cityCenter, cell) * 2 < citySize)
+                if (HexMetrics.DistanceBetweenCells(cityCenter, cell) < citySize)
                 {
                     isTooCloseFromOtherCity = true;
                 }
             }
-        } while (cityCenter.WaterLevel > cityCenter.Elevation && !isTooCloseFromOtherCity);
+        } while (cityCenter.WaterLevel > cityCenter.Elevation || isTooCloseFromOtherCity && nonFloodedCells.Count > 0);
 
 
         if (cityCenter != null)
         {
-
             citiesCenter.Add(cityCenter);
 
             int nbRoads = rand.Next(citySize, citySize * 3);
@@ -198,7 +221,13 @@ public class City : Biome
 
     private void ChangeColor(HexCell cell)
     {
-        if (cell.Elevation < cell.WaterLevel) { // SEA
+        if (cell.Elevation > 5) { // SNOW
+            cell.Color = Colors.SNOW;
+        }
+        else if (cell.Elevation > 3) { // MOUNTAIN
+            cell.Color = Colors.MOUNTAIN;
+        }
+        else if (cell.Elevation < cell.WaterLevel) { // SEA
             //Si la profondeur est élevée
             if ((cell.WaterLevel - cell.Elevation) > 1)
                 cell.Color = Colors.DEEP_SEA;
@@ -207,15 +236,6 @@ public class City : Biome
         }
         else if (cell.HaveFloodedNeighbor()) { // SAND
             cell.Color = Colors.SAND;
-        }
-        else if (cell.HasRoads) { // ROAD
-            cell.Color = Colors.PAVED_ROAD;
-        }
-        else if (cell.Elevation > 5) { // SNOW
-            cell.Color = Colors.SNOW;
-        }
-        else if (cell.Elevation > 3) { // MOUNTAIN
-            cell.Color = Colors.MOUNTAIN;
         }
         else { // FOREST
             cell.Color = Colors.FOREST;

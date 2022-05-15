@@ -32,8 +32,8 @@ public class HexGrid : MonoBehaviour
 
 	void Awake()
 	{
-		chunkCountX = Random.Range(3, 7);
-		chunkCountZ = Random.Range(2, 6);
+		chunkCountX = Random.Range(3, 6);
+		chunkCountZ = Random.Range(2, 5);
 
 		HexMetrics.noiseSource = noiseSource;
 
