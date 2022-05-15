@@ -97,3 +97,15 @@ Nous avons terminé par poser des objets à proximité des routes et des rivières.
 Pour lancer ce projet il vous faudra une version de Unity supérieure ou égale à la version 2019.4.36f1.
 Il vous suffit ensuite de lancer la simulation, la génération va se faire d'elle même et vous aurez un monde procéduralement créé.
 Chaque fois que vous allez lancer la simulation c'est un nouveau monde qui se forme.
+
+### Déplacements de la caméra
+
+Z => Avancer
+S => Reculer
+Q => Gauche
+D => Droite
+
+A => Rotation anti horaire
+E => Rotation horaire
+
+Molette => Zoom
