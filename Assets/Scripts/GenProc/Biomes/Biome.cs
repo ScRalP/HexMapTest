@@ -263,7 +263,14 @@ public abstract class Biome : IMapGenerator
     {
         //Calculate position & rotation of prefab object
         float prefabHeight = Get3DObjectHeight(prefab);
-        Vector3 position = HexMetrics.Perturb(new Vector3(cell.Position.x, cell.Position.y + prefabHeight / 2, cell.Position.z));
+        Vector3 position = HexMetrics.Perturb(
+            new Vector3(
+                cell.Position.x + (xOffset * HexMetrics.innerRadius),
+                cell.Position.y + prefabHeight / 2,
+                cell.Position.z + (zOffset * HexMetrics.innerRadius)
+            )
+        );
+
         Instantiate3DObject(prefab, position, rotation);
     }
 

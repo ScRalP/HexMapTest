@@ -71,15 +71,17 @@ public class City : Biome
         //Ajouter du décors
         foreach (HexCell cell in grid.GetCells())
         {
-            if(cell.Color == Colors.FOREST)
+            if(cell.Color == Colors.FOREST && !cell.HasRiver)
             {
                 //Ajouter des arbres
                 int nbTrees = rand.Next(2, 8);
                 for(int i = 0; i<nbTrees; i++)
                 {
-                    float randY = (float)rand.NextDouble();
-                    Quaternion randRotation = Quaternion.Euler(0, randY, 0);
-                    Draw3DObject(cell, Prefabs.TREE, randRotation);
+                    Quaternion randRotation = Quaternion.Euler(0, (float)rand.NextDouble(), 0);
+                    float randTransformX = (float)(rand.NextDouble() - 0.5);
+                    float randTransformZ = (float)(rand.NextDouble() - 0.5);
+
+                    Draw3DObject(cell, Prefabs.TREE, randRotation, randTransformX, randTransformZ);
                 }
             }
         }
@@ -140,26 +142,32 @@ public class City : Biome
 
             cityCenter = grid.GetCell(new HexCoordinates(randX - randZ / 2, randZ));
 
-            foreach(HexCell cell in citiesCenter)
+            foreach (HexCell cell in citiesCenter)
             {
-                if(HexMetrics.DistanceBetweenCells(cityCenter, cell) < citySize) {
+                if (HexMetrics.DistanceBetweenCells(cityCenter, cell) * 2 < citySize)
+                {
                     isTooCloseFromOtherCity = true;
                 }
             }
         } while (cityCenter.WaterLevel > cityCenter.Elevation && !isTooCloseFromOtherCity);
 
-        citiesCenter.Add(cityCenter);
 
-        int nbRoads = rand.Next(citySize, citySize * 3);
-        for (int i = 0; i < nbRoads; i++)
+        if (cityCenter != null)
         {
-            HexDirection randDir = (HexDirection)directions.GetValue(rand.Next(directions.Length));
-            int roadLength = rand.Next(0, citySize);
-            GenerateRoad(cityCenter, randDir, roadLength, 0.5);
+
+            citiesCenter.Add(cityCenter);
+
+            int nbRoads = rand.Next(citySize, citySize * 3);
+            for (int i = 0; i < nbRoads; i++)
+            {
+                HexDirection randDir = (HexDirection)directions.GetValue(rand.Next(directions.Length));
+                int roadLength = rand.Next(0, citySize);
+                GenerateRoad(cityCenter, randDir, roadLength, 0.5);
+            }
         }
     }
 
-   public override void FillPrefabsTab()
+    public override void FillPrefabsTab()
    {
       prefabs = new GameObject[5];
       prefabs[0] = Resources.Load<GameObject>("Prefabs/Flag");
