@@ -27,7 +27,7 @@ public abstract class Biome : IMapGenerator
     {
         foreach(HexCell cell in grid.GetCells())
         {
-            cell.Elevation = UnityEngine.Random.Range(0, 6);
+            cell.Elevation = UnityEngine.Random.Range(0, 7);
         }
     }
 
@@ -259,10 +259,11 @@ public abstract class Biome : IMapGenerator
     /// Créer un objet sur une cellule
     /// </summary>
     /// <param name="cell"></param>
-    protected void Draw3DObject(HexCell cell, GameObject prefab, Quaternion rotation = new Quaternion(), float xOffset = 0f, float zOffset = 0f)
+    protected void Draw3DObject(HexCell cell, GameObject prefab,float xOffset = 0f, float zOffset = 0f, Quaternion? rotation = null)
     {
         //Calculate position & rotation of prefab object
         float prefabHeight = Get3DObjectHeight(prefab);
+
         Vector3 position = HexMetrics.Perturb(
             new Vector3(
                 cell.Position.x + (xOffset * HexMetrics.innerRadius),
@@ -271,15 +272,13 @@ public abstract class Biome : IMapGenerator
             )
         );
 
-        Instantiate3DObject(prefab, position, rotation);
+        Instantiate3DObject(prefab, position, rotation != null ? (Quaternion)rotation : Quaternion.identity);
     }
 
     private void Instantiate3DObject(GameObject prefab, Vector3 position, Quaternion rotation)
     {
         //Create object at position
-        float randY = (float)rand.Next(360);
-        Quaternion randRotation = Quaternion.Euler(0, randY, 0);
-        GameObject.Instantiate(prefab, position, randRotation);
+        GameObject.Instantiate(prefab, position, rotation);
     }
 
     /// <summary>

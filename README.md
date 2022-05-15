@@ -49,6 +49,9 @@ Pour générer nos routes, nous nous sommes basés sur une génération similaire à c
 
 ### Génération des rivières
 
+Comme pour la création des route, la génération des rivières suis un fonctionnement de direction.
+Une fois les rivières créée on vient ajouter des lacs au pieds de celles ci ce qui ajoutes un aspect naturel à notre monde.
+
 <img src="./ImgOfReadMe/07.png" alt="Rivières" width="700"/>
 
 ## Placement de modèles 3D
@@ -87,3 +90,10 @@ Finalement, nous avons décidé de séparer notre monde en plusieurs unités dites "
 Les objets posés sur la carte ne sont pas les mêmes et ne sont pas posés de la même manière en fonction du type de biome.
 Par rapport à notre système de positionnement précédent, nous avons gardé un principe : On ne pose pas un objet entre des tuiles si elles n'ont pas la même hauteur.
 Nous avons terminé par poser des objets à proximité des routes et des rivières.
+
+
+## Faire fonctionner le programme
+
+Pour lancer ce projet il vous faudra une version de Unity supérieure ou égale à la version 2019.4.36f1.
+Il vous suffit ensuite de lancer la simulation, la génération va se faire d'elle même et vous aurez un monde procéduralement créé.
+Chaque fois que vous allez lancer la simulation c'est un nouveau monde qui se forme.
