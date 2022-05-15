@@ -398,4 +398,17 @@ public class HexCell : MonoBehaviour
 		return false;
     }
 
+	public int GetNbRoads()
+    {
+		int nbRoads = 0;
+		for(int i = 0; i < roads.Length; i++)
+        {
+            if (roads[i])
+            {
+				nbRoads++;
+            }
+        }
+
+		return nbRoads;
+    }
 }
